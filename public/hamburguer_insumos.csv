@@ -1,0 +1,18 @@
+nome,categoria,unidade_compra,qtd_por_embalagem,unidade_base,preco_pago,fornecedor,fator_correcao
+Pão de Hambúrguer (brioche),Secos e Grãos,pacote,12,un,18.90,Distribuidora Pães,1.0
+Blend Bovino 80/20,Carnes,kg,1000,g,42.90,Açougue Central,0.92
+Queijo Mussarela Fatiado,Laticínios,kg,1000,g,36.90,Laticínios Silva,1.0
+Bacon em Fatias,Carnes,kg,1000,g,49.90,Frigorífico BM,1.0
+Alface Americana,Hortifrúti,un,1,un,3.50,CEASA,0.80
+Tomate Italiano,Hortifrúti,kg,1000,g,7.90,CEASA,0.85
+Cebola Roxa,Hortifrúti,kg,1000,g,6.50,CEASA,0.88
+Picles Fatiado,Outros,pote,500,g,12.90,Distribuidora FG,1.0
+Maionese Hellmanns,Outros,balde,4000,g,39.90,Makro,1.0
+Catchup Heinz,Outros,galão,3000,g,34.90,Makro,1.0
+Mostarda Amarela,Outros,galão,3000,g,28.90,Makro,1.0
+Sal Refinado,Secos e Grãos,kg,1000,g,3.50,Atacadão,1.0
+Pimenta do Reino Moída,Secos e Grãos,embalagem,50,g,8.90,Atacadão,1.0
+Azeite de Oliva,Outros,garrafa,500,ml,28.90,Makro,1.0
+Caixa Hambúrguer G,Embalagens,fardo,100,un,55.90,Embalagex,1.0
+Papel Manteiga 30x30,Embalagens,pacote,100,un,18.90,Embalagex,1.0
+Guardanapo Folha Dupla,Embalagens,pacote,300,un,12.90,Embalagex,1.0
