@@ -105,7 +105,7 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
             <Label>Categoria</Label>
             <Select
               value={watch("categoria_id") ?? "none"}
-              onValueChange={(v) => setValue("categoria_id", v === "none" ? undefined : v)}
+              onValueChange={(v) => setValue("categoria_id", v === "none" ? undefined : (v ?? undefined))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Selecionar…" />

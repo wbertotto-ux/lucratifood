@@ -28,7 +28,8 @@ export async function getAssinaturaAtiva(restauranteId: string): Promise<Limites
 
   if (!data) return null;
 
-  const plano = data.planos as {
+  const planoRaw = Array.isArray(data.planos) ? data.planos[0] : data.planos;
+  const plano = (planoRaw as unknown) as {
     nome: string;
     max_receitas: number | null;
     max_insumos: number | null;

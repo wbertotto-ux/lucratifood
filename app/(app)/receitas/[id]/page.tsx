@@ -49,7 +49,7 @@ export default async function FichaTecnicaPage({ params }: { params: Promise<{ i
         .sort((a: { id: string }, b: { id: string }) =>
           (precosIds.has(b.id) ? 1 : 0) - (precosIds.has(a.id) ? 1 : 0)
         )
-        .map((c: { nome: string; id: string }) => [c.nome.trim().toLowerCase(), c])
+        .map((c: { nome: string; id: string; pct_comissao: number }) => [c.nome.trim().toLowerCase(), c])
     ).values()
   );
 

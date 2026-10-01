@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Lock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface PlanoGateProps {
   planoId: string;
@@ -25,9 +26,7 @@ export function PlanoGate({ planoId, feature, teaser, children }: PlanoGateProps
         </div>
         <p className="font-semibold text-foreground mb-1">{feature}</p>
         {teaser && <p className="text-sm text-muted-foreground mb-4 max-w-xs">{teaser}</p>}
-        <Button asChild size="sm">
-          <Link href="/planos">Fazer upgrade para o PRO</Link>
-        </Button>
+        <Link href="/planos" className={cn(buttonVariants({ size: "sm" }))}>Fazer upgrade para o PRO</Link>
       </div>
     </div>
   );

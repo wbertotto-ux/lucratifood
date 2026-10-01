@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { atualizarRestaurante } from "@/lib/actions/configuracoes";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -180,11 +181,9 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
                     Fichas ilimitadas, multicanal, gráficos e alertas automáticos.
                   </p>
                 </div>
-                <Button asChild className="shrink-0 gap-1.5">
-                  <Link href="/planos">
-                    Ver planos <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                </Button>
+                <Link href="/planos" className={cn(buttonVariants(), "shrink-0 gap-1.5")}>
+                  Ver planos <ArrowUpRight className="w-4 h-4" />
+                </Link>
               </CardContent>
             </Card>
           )}

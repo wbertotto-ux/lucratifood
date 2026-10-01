@@ -191,7 +191,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
 
           {/* Formulário novo custo */}
           <form onSubmit={handleNovoCusto} className="flex gap-2 flex-wrap">
-            <Select value={novoCusto.categoria} onValueChange={(v) => setNovoCusto(p => ({ ...p, categoria: v }))}>
+            <Select value={novoCusto.categoria} onValueChange={(v) => setNovoCusto(p => ({ ...p, categoria: v ?? "" }))}>
               <SelectTrigger className="w-44">
                 <SelectValue />
               </SelectTrigger>
