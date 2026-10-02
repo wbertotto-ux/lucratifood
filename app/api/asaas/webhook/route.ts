@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const WEBHOOK_TOKEN = process.env.ASAAS_WEBHOOK_TOKEN ?? "";
 
@@ -24,7 +24,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  const supabase = await createClient();
+  // Admin client bypassa RLS — necessário pois o webhook não tem sessão de usuário
+  const supabase = createAdminClient();
 
   if (body.event === "PAYMENT_CONFIRMED" || body.event === "PAYMENT_RECEIVED") {
     await supabase
