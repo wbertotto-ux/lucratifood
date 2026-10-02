@@ -212,7 +212,9 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
         {/* CTA final */}
         <div className="mt-12 text-center">
           <p className="text-muted-foreground text-sm mb-4">
-            Dúvidas? Fale com a gente pelo WhatsApp antes de assinar.
+            Dúvidas? Entre em contato pelo{" "}
+            <a href="mailto:contato@lucratifood.com.br" className="text-primary hover:underline">contato@lucratifood.com.br</a>{" "}
+            antes de assinar.
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <Link
