@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { iniciarCheckout } from "@/lib/actions/checkout";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, AlertTriangle } from "lucide-react";
 
 const NOMES: Record<string, string> = {
   essencial: "Essencial",
@@ -16,8 +16,8 @@ const PRECOS: Record<string, string> = {
   pro: "R$ 179,90/mês",
 };
 
-export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ plano?: string }> }) {
-  const { plano } = await searchParams;
+export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ plano?: string; erro?: string }> }) {
+  const { plano, erro } = await searchParams;
   if (!plano || !NOMES[plano]) redirect("/planos");
 
   const supabase = await createClient();
@@ -61,6 +61,13 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
                 ))}
               </ul>
             </div>
+
+            {erro === "pagamento" && (
+              <div className="mb-4 flex items-center gap-2 text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                Não foi possível conectar ao sistema de pagamento. Tente novamente em instantes.
+              </div>
+            )}
 
             <form action={iniciarCheckout}>
               <input type="hidden" name="plano" value={plano} />

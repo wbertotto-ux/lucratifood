@@ -4,9 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 const WEBHOOK_TOKEN = process.env.ASAAS_WEBHOOK_TOKEN ?? "";
 
 export async function POST(req: NextRequest) {
-  // Valida token
+  // Valida token — rejeita se token não configurado (nunca deve estar vazio em prod)
   const token = req.headers.get("asaas-access-token") ?? "";
-  if (WEBHOOK_TOKEN && token !== WEBHOOK_TOKEN) {
+  if (!WEBHOOK_TOKEN || token !== WEBHOOK_TOKEN) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

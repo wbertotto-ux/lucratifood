@@ -35,18 +35,24 @@ export async function iniciarCheckout(formData: FormData) {
   if (existente) redirect("/dashboard");
 
   // Cria customer e subscription no Asaas
-  const customer = await criarCliente(restaurante.nome, session.user.email ?? "");
-  const subscription = await criarAssinatura(customer.id, PRECOS[planoId]);
+  let customer: { id: string };
+  let subscription: { id: string; invoiceUrl: string };
+  try {
+    customer = await criarCliente(restaurante.nome, session.user.email ?? "");
+    subscription = await criarAssinatura(customer.id, PRECOS[planoId]);
+  } catch {
+    redirect(`/checkout?plano=${planoId}&erro=pagamento`);
+  }
 
   // Salva a assinatura pendente no banco
   await supabase.from("assinaturas").insert({
     restaurante_id: restaurante.id,
     plano_id: planoId,
     status: "pendente",
-    asaas_customer_id: customer.id,
-    asaas_subscription_id: subscription.id,
+    asaas_customer_id: customer!.id,
+    asaas_subscription_id: subscription!.id,
   });
 
   // Redireciona para a página de pagamento do Asaas
-  redirect(subscription.invoiceUrl);
+  redirect(subscription!.invoiceUrl);
 }
