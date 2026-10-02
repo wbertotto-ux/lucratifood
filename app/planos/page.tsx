@@ -3,6 +3,7 @@ import { Check, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { signOut } from "@/lib/actions/auth";
 
 export const metadata = {
   title: "Planos — Lucratifood",
@@ -52,10 +53,16 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
       <header className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
           <Logo size="sm" href="/" />
-          {!session && (
+          {!session ? (
             <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Entrar
             </Link>
+          ) : (
+            <form action={signOut}>
+              <button type="submit" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                Sair
+              </button>
+            </form>
           )}
         </div>
       </header>

@@ -10,7 +10,7 @@ export default async function OnboardingPage({ searchParams }: { searchParams: P
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Configure seu restaurante</CardTitle>
+          <CardTitle>Configure seu negócio</CardTitle>
           <CardDescription>
             Estas informações definem como os custos e margens são calculados.
             Você pode alterar depois em Configurações.
@@ -20,7 +20,7 @@ export default async function OnboardingPage({ searchParams }: { searchParams: P
           <form action={criarRestaurante} className="space-y-6">
             <input type="hidden" name="plano" value={plano ?? "essencial"} />
             <div className="space-y-1">
-              <Label htmlFor="nome">Nome do restaurante</Label>
+              <Label htmlFor="nome">Nome do negócio</Label>
               <Input id="nome" name="nome" placeholder="Ex: Cantina da Família" required />
             </div>
 
