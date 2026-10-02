@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,6 +22,8 @@ type FormData = z.infer<typeof schema>;
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const erroUrl = searchParams.get("erro");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
@@ -81,6 +83,11 @@ export default function LoginPage() {
                 <Input id="senha" type="password" autoComplete="current-password" placeholder="••••••••" {...register("senha")} />
                 {errors.senha && <p className="text-xs text-destructive">{errors.senha.message}</p>}
               </div>
+              {erroUrl === "link_invalido" && !erro && (
+                <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">
+                  O link expirou ou é inválido. Solicite um novo link de recuperação de senha.
+                </p>
+              )}
               {erro && <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erro}</p>}
               <Button type="submit" className="w-full font-semibold" size="lg" disabled={carregando}>
                 {carregando ? "Entrando…" : "Entrar"}

@@ -73,6 +73,7 @@ export default async function DashboardPage() {
       pratos={pratosComCusto}
       canais={canais}
       restaurante={restaurante}
+      restauranteId={restaurante.id}
       custoOperacionalPorPorcao={custoOperacionalPorPorcao}
       planoId={planoId}
     />

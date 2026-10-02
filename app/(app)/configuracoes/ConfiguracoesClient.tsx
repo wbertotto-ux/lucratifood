@@ -43,8 +43,11 @@ const labelCategoria = (val: string) => CATEGORIAS_CUSTO.find(c => c.value === v
 export function ConfiguracoesClient({ restaurante, canais, categorias, custosOperacionais }: Props) {
   const [salvandoRest, setSalvandoRest] = useState(false);
   const [novaCategoria, setNovaCategoria] = useState("");
+  const [erroCategoria, setErroCategoria] = useState<string | null>(null);
   const [novoCanal, setNovoCanal] = useState({ nome: "", pct_comissao: "" });
   const [erroCanal, setErroCanal] = useState<string | null>(null);
+  const [editandoCanal, setEditandoCanal] = useState<string | null>(null);
+  const [editCanal, setEditCanal] = useState({ nome: "", pct_comissao: "" });
 
   // Custos operacionais state
   const [novoCusto, setNovoCusto] = useState({ categoria: "energia", descricao: "", valor_mensal: "" });
@@ -79,6 +82,15 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
         setErroCanal("Erro ao criar canal. Tente novamente.");
       }
     }
+  }
+
+  async function handleSalvarCanal(id: string, ativo: boolean) {
+    const fd = new FormData();
+    fd.set("nome", editCanal.nome);
+    fd.set("pct_comissao", editCanal.pct_comissao);
+    fd.set("ativo", String(ativo));
+    await atualizarCanal(id, fd);
+    setEditandoCanal(null);
   }
 
   async function handleNovaCategoria() {
@@ -287,16 +299,52 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
         <CardContent className="space-y-3">
           {canais.map((canal) => (
             <div key={canal.id} className="flex items-center gap-3">
-              <span className="flex-1 text-sm font-medium">{canal.nome}</span>
-              <span className="text-sm text-muted-foreground">{(canal.pct_comissao * 100).toFixed(1)}%</span>
-              <Badge variant={canal.ativo ? "secondary" : "outline"}>{canal.ativo ? "Ativo" : "Inativo"}</Badge>
-              <form action={async (fd) => { fd.set("ativo", String(!canal.ativo)); await atualizarCanal(canal.id, fd); }}>
-                <input type="hidden" name="nome" value={canal.nome} />
-                <input type="hidden" name="pct_comissao" value={(canal.pct_comissao * 100).toFixed(1)} />
-                <Button type="submit" variant="ghost" size="sm">
-                  {canal.ativo ? "Desativar" : "Ativar"}
-                </Button>
-              </form>
+              {editandoCanal === canal.id ? (
+                <>
+                  <Input
+                    className="flex-1 h-8 text-sm"
+                    value={editCanal.nome}
+                    onChange={(e) => setEditCanal(p => ({ ...p, nome: e.target.value }))}
+                  />
+                  <div className="flex items-center gap-1">
+                    <Input
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      className="w-20 h-8 text-sm"
+                      value={editCanal.pct_comissao}
+                      onChange={(e) => setEditCanal(p => ({ ...p, pct_comissao: e.target.value }))}
+                    />
+                    <span className="text-sm text-muted-foreground">%</span>
+                  </div>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleSalvarCanal(canal.id, canal.ativo)}>
+                    <Check className="w-3.5 h-3.5 text-green-600" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditandoCanal(null)}>
+                    <X className="w-3.5 h-3.5" />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <span className="flex-1 text-sm font-medium">{canal.nome}</span>
+                  <span className="text-sm text-muted-foreground">{(canal.pct_comissao * 100).toFixed(1)}%</span>
+                  <Badge variant={canal.ativo ? "secondary" : "outline"}>{canal.ativo ? "Ativo" : "Inativo"}</Badge>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => {
+                    setEditandoCanal(canal.id);
+                    setEditCanal({ nome: canal.nome, pct_comissao: (canal.pct_comissao * 100).toFixed(1) });
+                  }}>
+                    <Pencil className="w-3.5 h-3.5" />
+                  </Button>
+                  <form action={async (fd) => { fd.set("ativo", String(!canal.ativo)); await atualizarCanal(canal.id, fd); }}>
+                    <input type="hidden" name="nome" value={canal.nome} />
+                    <input type="hidden" name="pct_comissao" value={(canal.pct_comissao * 100).toFixed(1)} />
+                    <Button type="submit" variant="ghost" size="sm">
+                      {canal.ativo ? "Desativar" : "Ativar"}
+                    </Button>
+                  </form>
+                </>
+              )}
             </div>
           ))}
           <Separator />
@@ -339,7 +387,11 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
                 <Badge variant="secondary">{cat.nome}</Badge>
                 <button
                   type="button"
-                  onClick={() => excluirCategoria(cat.id)}
+                  onClick={async () => {
+                    setErroCategoria(null);
+                    const res = await excluirCategoria(cat.id);
+                    if (res?.erro) setErroCategoria(res.erro);
+                  }}
                   className="text-muted-foreground hover:text-destructive"
                 >
                   <Trash2 className="w-3 h-3" />
@@ -347,6 +399,9 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
               </div>
             ))}
           </div>
+          {erroCategoria && (
+            <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erroCategoria}</p>
+          )}
           <div className="flex gap-2">
             <Input
               placeholder="Nova categoria…"

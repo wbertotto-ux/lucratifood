@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { salvarPrecosCanal } from "@/lib/actions/receitas";
+import { upsertPrecosCanal } from "@/lib/actions/receitas";
 import { formatarMoeda, formatarPct } from "@/lib/formatacao";
 import type { ResultadoImpacto } from "@/lib/calculos";
 
@@ -39,7 +39,7 @@ export function ImpactoClient({ resultados, canais, receitas, insumoNome, novoPr
       porReceita.set(r.receita_id, lista);
     }
     for (const [receitaId, precos] of porReceita) {
-      await salvarPrecosCanal(receitaId, precos);
+      await upsertPrecosCanal(receitaId, precos);
       setAplicados((prev) => [...prev, receitaId]);
     }
     setAplicando(false);

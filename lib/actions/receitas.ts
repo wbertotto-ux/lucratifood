@@ -70,11 +70,20 @@ export async function salvarItensReceita(
   itens: { insumo_id: string | null; sub_receita_id: string | null; qtd_liquida: number; unidade: string }[]
 ) {
   const supabase = await createClient();
-  await supabase.from("itens_receita").delete().eq("receita_id", receitaId);
-  if (itens.length > 0) {
-    await supabase.from("itens_receita").insert(
-      itens.map((i) => ({ ...i, receita_id: receitaId }))
-    );
+  if (itens.length === 0) {
+    await supabase.from("itens_receita").delete().eq("receita_id", receitaId);
+  } else {
+    // INSERT primeiro para não perder dados se a rede cair entre DELETE e INSERT
+    const { data: novos, error } = await supabase
+      .from("itens_receita")
+      .insert(itens.map((i) => ({ ...i, receita_id: receitaId })))
+      .select("id");
+    if (error || !novos) throw error ?? new Error("Falha ao salvar ingredientes");
+    await supabase
+      .from("itens_receita")
+      .delete()
+      .eq("receita_id", receitaId)
+      .not("id", "in", `(${novos.map((r) => r.id).join(",")})`);
   }
   revalidatePath(`/receitas/${receitaId}`);
 }
@@ -84,12 +93,33 @@ export async function salvarPrecosCanal(
   precos: { canal_id: string; preco_venda: number; embalagem_insumo_id: string | null }[]
 ) {
   const supabase = await createClient();
-  await supabase.from("precos_canal").delete().eq("receita_id", receitaId);
-  if (precos.length > 0) {
-    await supabase.from("precos_canal").insert(
-      precos.map((p) => ({ ...p, receita_id: receitaId }))
-    );
+  if (precos.length === 0) {
+    await supabase.from("precos_canal").delete().eq("receita_id", receitaId);
+  } else {
+    // UPSERT (constraint unique em receita_id+canal_id) + DELETE canais removidos
+    const { data: novos, error } = await supabase
+      .from("precos_canal")
+      .upsert(precos.map((p) => ({ ...p, receita_id: receitaId })), { onConflict: "receita_id,canal_id" })
+      .select("id");
+    if (error || !novos) throw error ?? new Error("Falha ao salvar preços");
+    await supabase
+      .from("precos_canal")
+      .delete()
+      .eq("receita_id", receitaId)
+      .not("id", "in", `(${novos.map((r) => r.id).join(",")})`);
   }
+  revalidatePath(`/receitas/${receitaId}`);
+}
+
+export async function upsertPrecosCanal(
+  receitaId: string,
+  precos: { canal_id: string; preco_venda: number; embalagem_insumo_id: string | null }[]
+) {
+  if (precos.length === 0) return;
+  const supabase = await createClient();
+  await supabase
+    .from("precos_canal")
+    .upsert(precos.map((p) => ({ ...p, receita_id: receitaId })), { onConflict: "receita_id,canal_id" });
   revalidatePath(`/receitas/${receitaId}`);
 }
 

@@ -1,0 +1,224 @@
+{
+  "main": {
+    "id": "36ed5404879ccc45",
+    "type": "split",
+    "children": [
+      {
+        "id": "8ab3b39b3f01f5cb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1a521290789779bb",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c67c917ab705aac3",
+    "type": "split",
+    "children": [
+      {
+        "id": "5aebf847fafbd9ac",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bf258c957e34a491",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "34ad64b60a7291a3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "9b3a845d4b14ebc6",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5e7860ebd820b824",
+    "type": "split",
+    "children": [
+      {
+        "id": "15908e0bfefe0284",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3a9c70ba6dbcf905",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos"
+            }
+          },
+          {
+            "id": "aaa5641682db331c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída"
+            }
+          },
+          {
+            "id": "c54395e5f413df17",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "e46064d328798e29",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "d300871dd80df1af",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "1a521290789779bb",
+  "lastOpenFiles": [
+    "Minha Conta.md",
+    "Minha Conta.md.tmp.22556.a9b63ad25392",
+    "Supabase — Banco de Dados.md",
+    "Supabase — Banco de Dados.md.tmp.22556.d464e885d2f7",
+    "Supabase — Auth.md",
+    "Restaurante.md",
+    "Custos Operacionais.md",
+    "Canais de Venda.md",
+    "Canais de Venda.md.tmp.22556.99662a66d810",
+    "Configurações.md",
+    "Configurações.md.tmp.22556.6a3587a02c3a",
+    "Impacto de Preço.md",
+    "Dashboard — Painel.md",
+    "Dashboard — Painel.md.tmp.22556.af06fb5ef8a2",
+    "Engine de Cálculo.md",
+    "Receitas — Fichas Técnicas.md",
+    "Receitas — Fichas Técnicas.md.tmp.22556.bec0a36382f5",
+    "Insumos.md",
+    "Insumos.md.tmp.22556.ea621e5b843d",
+    "Sem título.canvas",
+    "Checkout — Pagamento.md",
+    "Bugs Pré-lançamento.md",
+    "Auth — Recuperação de Senha.md",
+    "Auth — Callback.md",
+    "Arquitetura Técnica.md",
+    "Webhook — Asaas.md",
+    "Planos — Assinatura.md",
+    "Auth — Login.md",
+    "Middleware — Proxy.md",
+    "Planos — Assinatura.md.tmp.22556.359a67e2b79a",
+    "Webhook — Asaas.md.tmp.22556.6a53f53a20f7",
+    "Asaas — Integração.md",
+    "Onboarding.md",
+    "Onboarding.md.tmp.22556.f2d0ed63334b",
+    "Auth — Cadastro.md",
+    "Índice.md",
+    "Bem-vindo.md"
+  ]
+}

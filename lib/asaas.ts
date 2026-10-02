@@ -42,6 +42,14 @@ export async function criarAssinatura(customerId: string, valor: number) {
   return { id: subscription.id, invoiceUrl };
 }
 
+export async function buscarInvoiceUrl(subscriptionId: string): Promise<string | null> {
+  const payments = await req<{ data: Array<{ invoiceUrl: string }> }>(
+    "GET",
+    `/payments?subscription=${subscriptionId}&limit=1`
+  );
+  return payments.data[0]?.invoiceUrl ?? null;
+}
+
 export async function cancelarAssinatura(subscriptionId: string) {
   return req<unknown>("DELETE", `/subscriptions/${subscriptionId}`);
 }

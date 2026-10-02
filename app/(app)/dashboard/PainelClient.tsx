@@ -34,6 +34,7 @@ interface Props {
   pratos: Prato[];
   canais: Canal[];
   restaurante: Restaurante;
+  restauranteId: string;
   custoOperacionalPorPorcao?: number;
   planoId?: string;
 }
@@ -67,7 +68,7 @@ function TooltipMoeda({ active, payload, label }: any) {
   );
 }
 
-export function PainelClient({ pratos, canais, restaurante, custoOperacionalPorPorcao = 0, planoId = "essencial" }: Props) {
+export function PainelClient({ pratos, canais, restaurante, restauranteId, custoOperacionalPorPorcao = 0, planoId = "essencial" }: Props) {
   const isPro = planoId === "pro";
   const router = useRouter();
 
@@ -89,17 +90,20 @@ export function PainelClient({ pratos, canais, restaurante, custoOperacionalPorP
   }, [canaisUnicos]);
   const [mediasVendas, setMediasVendas] = useState<Record<string, string>>({});
 
+  const storageKey = `medias_vendas_mes_${restauranteId}`;
+
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("medias_vendas_mes");
+      const saved = localStorage.getItem(storageKey);
       if (saved) setMediasVendas(JSON.parse(saved));
     } catch { /* ok */ }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey]);
 
   function setMedia(id: string, val: string) {
     const novo = { ...mediasVendas, [id]: val };
     setMediasVendas(novo);
-    try { localStorage.setItem("medias_vendas_mes", JSON.stringify(novo)); } catch { /* ok */ }
+    try { localStorage.setItem(storageKey, JSON.stringify(novo)); } catch { /* ok */ }
   }
 
   const canal = canaisUnicos.find((c) => c.id === canalSelecionado);

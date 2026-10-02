@@ -1,8 +1,8 @@
 import { criarRestaurante } from "@/lib/actions/onboarding";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { OnboardingSubmitButton } from "./OnboardingSubmitButton";
 
 export default async function OnboardingPage({ searchParams }: { searchParams: Promise<{ plano?: string }> }) {
   const { plano } = await searchParams;
@@ -72,9 +72,7 @@ export default async function OnboardingPage({ searchParams }: { searchParams: P
               </p>
             </div>
 
-            <Button type="submit" className="w-full">
-              Começar a usar
-            </Button>
+            <OnboardingSubmitButton />
           </form>
         </CardContent>
       </Card>

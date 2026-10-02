@@ -44,10 +44,14 @@ export default function CadastroPage() {
     });
     if (error) {
       const msg = error.message.toLowerCase();
-      if (msg.includes("already registered") || msg.includes("already been registered") || msg.includes("user already exists")) {
+      if (msg.includes("already registered") || msg.includes("already been registered") || msg.includes("user already exists") || msg.includes("already in use")) {
         setErro("Este e-mail já está cadastrado. Tente fazer login.");
       } else if (msg.includes("password")) {
         setErro("A senha não atende aos requisitos mínimos.");
+      } else if (msg.includes("rate limit") || msg.includes("security purposes") || msg.includes("too many")) {
+        setErro("Muitas tentativas. Aguarde alguns minutos e tente novamente.");
+      } else if (msg.includes("invalid") && msg.includes("email")) {
+        setErro("E-mail inválido. Verifique o endereço e tente novamente.");
       } else {
         setErro("Não foi possível criar a conta. Tente novamente.");
       }

@@ -284,7 +284,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
                 {insumosFiltrados.length === 0 && subReceitasFiltradas.length === 0 && (
                   <p className="px-3 py-3 text-sm text-muted-foreground">Nenhum resultado para "{buscaInsumo}".</p>
                 )}
-                {insumosFiltrados.slice(0, 15).map((i) => {
+                {insumosFiltrados.map((i) => {
                   const jaAdicionado = idsJaAdicionados.has(i.id);
                   return (
                     <button

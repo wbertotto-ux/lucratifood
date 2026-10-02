@@ -66,8 +66,16 @@ export async function criarCategoria(nome: string) {
   revalidatePath("/configuracoes");
 }
 
-export async function excluirCategoria(id: string) {
+export async function excluirCategoria(id: string): Promise<{ erro: string } | undefined> {
   const supabase = await createClient();
+  const { count } = await supabase
+    .from("insumos")
+    .select("id", { count: "exact", head: true })
+    .eq("categoria_id", id)
+    .eq("arquivado", false);
+  if ((count ?? 0) > 0) {
+    return { erro: `Não é possível excluir: ${count} insumo${count === 1 ? "" : "s"} ${count === 1 ? "usa" : "usam"} essa categoria. Reatribua-${count === 1 ? "o" : "os"} antes.` };
+  }
   await supabase.from("categorias_insumo").delete().eq("id", id);
   revalidatePath("/configuracoes");
 }
