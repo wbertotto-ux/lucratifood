@@ -40,7 +40,8 @@ export async function iniciarCheckout(formData: FormData) {
   try {
     customer = await criarCliente(restaurante.nome, session.user.email ?? "");
     subscription = await criarAssinatura(customer.id, PRECOS[planoId]);
-  } catch {
+  } catch (e) {
+    console.error("[checkout] Asaas error:", e instanceof Error ? e.message : e);
     redirect(`/checkout?plano=${planoId}&erro=pagamento`);
   }
 
