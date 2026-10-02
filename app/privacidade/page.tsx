@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const LAST_UPDATED = "2 de outubro de 2026";
-const CONTACT_EMAIL = "privacidade@lucratifood.com.br";
+const CONTACT_EMAIL = "contato@lucratifood.com.br";
 const COMPANY_NAME = "Lucratifood";
 
 export default function PrivacidadePage() {
