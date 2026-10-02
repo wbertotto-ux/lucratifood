@@ -43,6 +43,10 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
     }
   }
 
+  // Usuário logado sem assinatura vai direto para checkout, não para cadastro
+  const essencialHref = session ? "/checkout?plano=essencial" : "/cadastro?plano=essencial";
+  const proHref = session ? "/checkout?plano=pro" : "/cadastro?plano=pro";
+
   return (
     <div className="min-h-screen bg-background font-sans">
       <header className="border-b border-border bg-white">
@@ -113,10 +117,10 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
             </ul>
 
             <Link
-              href="/cadastro?plano=essencial"
+              href={essencialHref}
               className="block text-center rounded-xl border border-primary px-6 py-3.5 text-sm font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              Começar com o Essencial
+              {session ? "Assinar o Essencial" : "Começar com o Essencial"}
             </Link>
           </div>
 
@@ -159,7 +163,7 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
             </ul>
 
             <Link
-              href="/cadastro?plano=pro"
+              href={proHref}
               className="block text-center rounded-xl bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
             >
               Assinar o PRO
