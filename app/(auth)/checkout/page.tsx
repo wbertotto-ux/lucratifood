@@ -15,7 +15,7 @@ const NOMES: Record<string, string> = {
 
 const PRECOS: Record<string, string> = {
   essencial: "R$ 89,90/mês",
-  pro: "R$ 179,90/mês",
+  pro: "R$ 159,90/mês",
 };
 
 export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ plano?: string; erro?: string }> }) {

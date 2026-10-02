@@ -142,7 +142,7 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
             <div className="mb-6">
               <span className="text-xs font-semibold uppercase tracking-widest text-primary">PRO</span>
               <div className="mt-2 flex items-end gap-1">
-                <span className="text-5xl font-extrabold text-foreground">R$ 179</span>
+                <span className="text-5xl font-extrabold text-foreground">R$ 159</span>
                 <span className="text-2xl font-bold text-foreground">,90</span>
                 <span className="text-muted-foreground mb-1">/mês</span>
               </div>
@@ -225,7 +225,7 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
               href="/cadastro?plano=pro"
               className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground hover:opacity-90 transition-opacity"
             >
-              Assinar o PRO — R$ 179,90/mês
+              Assinar o PRO — R$ 159,90/mês
             </Link>
           </div>
         </div>
@@ -235,6 +235,7 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <Logo size="sm" href="/" />
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <a href="mailto:contato@lucratifood.com.br" className="hover:text-foreground transition-colors">contato@lucratifood.com.br</a>
             <Link href="/privacidade" className="hover:text-foreground transition-colors">Política de Privacidade</Link>
             <span>© {new Date().getFullYear()} Lucratifood</span>
           </div>

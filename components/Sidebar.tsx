@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Package, BookOpen, Settings, LogOut, AlertTriangle, UserCircle } from "lucide-react";
+import { LayoutDashboard, Package, BookOpen, Settings, LogOut, AlertTriangle, UserCircle, LifeBuoy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,12 @@ export function Sidebar() {
         ))}
       </nav>
       <div className="p-2 border-t">
+        <a href="mailto:contato@lucratifood.com.br">
+          <Button variant="ghost" size="sm" className="w-full justify-start gap-3 text-muted-foreground">
+            <LifeBuoy className="w-4 h-4" />
+            Suporte
+          </Button>
+        </a>
         <Button variant="ghost" size="sm" className="w-full justify-start gap-3 text-muted-foreground" onClick={sair}>
           <LogOut className="w-4 h-4" />
           Sair

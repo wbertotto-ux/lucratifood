@@ -192,7 +192,10 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
             <Card>
               <CardContent className="pt-5 flex items-center gap-3 text-sm text-muted-foreground">
                 <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
-                Você está no plano PRO. Para cancelar ou alterar a assinatura, entre em contato pelo WhatsApp.
+                Você está no plano PRO. Para cancelar ou alterar a assinatura, entre em contato em{" "}
+                <a href="mailto:contato@lucratifood.com.br" className="text-primary underline underline-offset-4">
+                  contato@lucratifood.com.br
+                </a>.
               </CardContent>
             </Card>
           )}

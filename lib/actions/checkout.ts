@@ -6,7 +6,7 @@ import { criarCliente, criarAssinatura, buscarInvoiceUrl } from "@/lib/asaas";
 
 const PRECOS: Record<string, number> = {
   essencial: 89.90,
-  pro: 179.90,
+  pro: 159.90,
 };
 
 function validarCpf(cpf: string): boolean {

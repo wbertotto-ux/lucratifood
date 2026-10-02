@@ -274,9 +274,14 @@ export default async function LandingPage() {
           <Logo size="md" href="/" />
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-muted-foreground">
             <p>© {new Date().getFullYear()} Lucratifood. Feito para quem trabalha com gastronomia e quer lucrar de verdade.</p>
-            <Link href="/privacidade" className="hover:text-foreground transition-colors whitespace-nowrap">
-              Política de Privacidade
-            </Link>
+            <div className="flex items-center gap-4">
+              <a href="mailto:contato@lucratifood.com.br" className="hover:text-foreground transition-colors whitespace-nowrap">
+                contato@lucratifood.com.br
+              </a>
+              <Link href="/privacidade" className="hover:text-foreground transition-colors whitespace-nowrap">
+                Política de Privacidade
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
