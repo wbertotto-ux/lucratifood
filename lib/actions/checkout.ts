@@ -57,5 +57,6 @@ export async function iniciarCheckout(formData: FormData) {
   });
 
   // Redireciona para a página de pagamento do Asaas
+  if (!subscription!.invoiceUrl) redirect(`/checkout?plano=${planoId}&erro=pagamento`);
   redirect(subscription!.invoiceUrl);
 }

@@ -23,7 +23,7 @@ export async function criarAssinatura(customerId: string, valor: number) {
   due.setDate(due.getDate() + 1);
   const nextDueDate = due.toISOString().split("T")[0];
 
-  return req<{ id: string; invoiceUrl: string }>("POST", "/subscriptions", {
+  const subscription = await req<{ id: string }>("POST", "/subscriptions", {
     customer: customerId,
     billingType: "UNDEFINED",
     value: valor,
@@ -31,6 +31,15 @@ export async function criarAssinatura(customerId: string, valor: number) {
     cycle: "MONTHLY",
     description: "Licença Lucratifood",
   });
+
+  // A invoiceUrl fica na cobrança (payment), não na subscription
+  const payments = await req<{ data: Array<{ id: string; invoiceUrl: string }> }>(
+    "GET",
+    `/payments?subscription=${subscription.id}&limit=1`
+  );
+  const invoiceUrl = payments.data[0]?.invoiceUrl ?? "";
+
+  return { id: subscription.id, invoiceUrl };
 }
 
 export async function cancelarAssinatura(subscriptionId: string) {
