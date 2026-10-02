@@ -31,11 +31,20 @@ export default function RedefinirSenhaPage() {
 
     setCarregando(true);
     const supabase = createClient();
+
+    // Verifica se há sessão ativa antes de tentar atualizar
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      setCarregando(false);
+      setErro("O link de recuperação expirou ou já foi utilizado. Solicite um novo link.");
+      return;
+    }
+
     const { error } = await supabase.auth.updateUser({ password: senha });
     setCarregando(false);
 
     if (error) {
-      setErro("Não foi possível redefinir a senha. O link pode ter expirado.");
+      setErro(`Não foi possível redefinir a senha: ${error.message}`);
       return;
     }
 
