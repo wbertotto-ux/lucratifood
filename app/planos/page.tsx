@@ -79,7 +79,7 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
             Escolha seu plano
           </h1>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Precificação correta desde o primeiro prato. Sem trial, sem surpresa.
+            Precificação correta desde o primeiro prato. Sem teste, sem surpresa. Cancele quando quiser.
           </p>
         </div>
 
