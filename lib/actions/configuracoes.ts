@@ -32,7 +32,8 @@ export async function criarCanal(formData: FormData) {
     const { count } = await supabase
       .from("canais_venda")
       .select("id", { count: "exact", head: true })
-      .eq("restaurante_id", rest.id);
+      .eq("restaurante_id", rest.id)
+      .eq("ativo", true);
     if ((count ?? 0) >= limites.max_canais) {
       throw new Error(`LIMITE_PLANO:canais:${limites.max_canais}`);
     }

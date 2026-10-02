@@ -44,6 +44,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
   const [salvandoRest, setSalvandoRest] = useState(false);
   const [novaCategoria, setNovaCategoria] = useState("");
   const [novoCanal, setNovoCanal] = useState({ nome: "", pct_comissao: "" });
+  const [erroCanal, setErroCanal] = useState<string | null>(null);
 
   // Custos operacionais state
   const [novoCusto, setNovoCusto] = useState({ categoria: "energia", descricao: "", valor_mensal: "" });
@@ -65,8 +66,19 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
 
   async function handleNovoCanal(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await criarCanal(new FormData(e.currentTarget));
-    setNovoCanal({ nome: "", pct_comissao: "" });
+    setErroCanal(null);
+    try {
+      await criarCanal(new FormData(e.currentTarget));
+      setNovoCanal({ nome: "", pct_comissao: "" });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.startsWith("LIMITE_PLANO:canais:")) {
+        const limite = msg.split(":")[2];
+        setErroCanal(`Limite do plano atingido: o plano Essencial permite ${limite} canal de venda ativo.`);
+      } else {
+        setErroCanal("Erro ao criar canal. Tente novamente.");
+      }
+    }
   }
 
   async function handleNovaCategoria() {
@@ -311,6 +323,9 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
               <Plus className="w-4 h-4" />
             </Button>
           </form>
+          {erroCanal && (
+            <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erroCanal}</p>
+          )}
         </CardContent>
       </Card>
 

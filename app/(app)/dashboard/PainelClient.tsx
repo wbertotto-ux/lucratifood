@@ -433,7 +433,7 @@ export function PainelClient({ pratos, canais, restaurante, custoOperacionalPorP
                     size="icon"
                     className="h-7 w-7 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                     onClick={async () => {
-                      if (!confirm(`Excluir "${prato.nome}"? Esta ação não pode ser desfeita.`)) return;
+                      if (!confirm(`Arquivar "${prato.nome}"? A receita pode ser restaurada pela lixeira em Receitas.`)) return;
                       await arquivarReceita(prato.id);
                       router.refresh();
                     }}

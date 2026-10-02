@@ -43,7 +43,14 @@ export default function CadastroPage() {
       password: data.senha,
     });
     if (error) {
-      setErro(error.message);
+      const msg = error.message.toLowerCase();
+      if (msg.includes("already registered") || msg.includes("already been registered") || msg.includes("user already exists")) {
+        setErro("Este e-mail já está cadastrado. Tente fazer login.");
+      } else if (msg.includes("password")) {
+        setErro("A senha não atende aos requisitos mínimos.");
+      } else {
+        setErro("Não foi possível criar a conta. Tente novamente.");
+      }
       setCarregando(false);
       return;
     }

@@ -84,6 +84,19 @@ export async function duplicarInsumo(id: string) {
   const { data } = await supabase.from("insumos").select("*").eq("id", id).single();
   if (!data) return;
 
+  const restaurante_id = await getRestauranteId();
+  const limites = await getAssinaturaAtiva(restaurante_id);
+  if (limites?.max_insumos != null) {
+    const { count } = await supabase
+      .from("insumos")
+      .select("id", { count: "exact", head: true })
+      .eq("restaurante_id", restaurante_id)
+      .eq("arquivado", false);
+    if ((count ?? 0) >= limites.max_insumos) {
+      throw new Error(`LIMITE_PLANO:insumos:${limites.max_insumos}`);
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id: _, atualizado_em: __, ...resto } = data;
   await supabase.from("insumos").insert({ ...resto, nome: `${data.nome} (cópia)` });

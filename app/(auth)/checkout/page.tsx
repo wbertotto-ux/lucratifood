@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { iniciarCheckout } from "@/lib/actions/checkout";
 import { Logo } from "@/components/Logo";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, Lock, AlertTriangle } from "lucide-react";
+import { Lock, AlertTriangle } from "lucide-react";
+import { CheckoutSubmitButton } from "./CheckoutSubmitButton";
 
 const NOMES: Record<string, string> = {
   essencial: "Essencial",
@@ -86,10 +86,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
                 />
                 <p className="text-xs text-muted-foreground">Necessário para emissão da cobrança</p>
               </div>
-              <Button type="submit" className="w-full gap-2 text-base py-6" size="lg">
-                Ir para o pagamento
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+              <CheckoutSubmitButton />
             </form>
 
             <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">

@@ -37,8 +37,18 @@ interface Props {
   restauranteId: string;
 }
 
+function normalizarErroInsumo(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err);
+  if (msg.startsWith("LIMITE_PLANO:insumos:")) {
+    const limite = msg.split(":")[2];
+    return `Limite do plano atingido: o plano Essencial permite até ${limite} insumos.`;
+  }
+  return "Erro ao salvar. Tente novamente.";
+}
+
 export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Props) {
   const [salvando, setSalvando] = useState(false);
+  const [erroServidor, setErroServidor] = useState<string | null>(null);
   const [pesoComprado, setPesoComprado] = useState("");
   const [pesoAproveitado, setPesoAproveitado] = useState("");
 
@@ -74,6 +84,7 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
 
   async function onSubmit(data: FormData) {
     setSalvando(true);
+    setErroServidor(null);
     const fd = new FormData();
     Object.entries(data).forEach(([k, v]) => v !== undefined && fd.append(k, String(v)));
     try {
@@ -83,6 +94,8 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
         await criarInsumo(fd);
       }
       onOpenChange(false);
+    } catch (err) {
+      setErroServidor(normalizarErroInsumo(err));
     } finally {
       setSalvando(false);
     }
@@ -200,6 +213,9 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
             <Textarea {...register("observacoes")} rows={2} />
           </div>
 
+          {erroServidor && (
+            <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erroServidor}</p>
+          )}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar

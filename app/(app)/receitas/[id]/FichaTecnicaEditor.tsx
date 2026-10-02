@@ -69,6 +69,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
     receita.pct_margem_desejada != null ? String(Math.round(receita.pct_margem_desejada * 100)) : ""
   );
   const [salvando, setSalvando] = useState(false);
+  const [erroSalvar, setErroSalvar] = useState<string | null>(null);
   const [buscaInsumo, setBuscaInsumo] = useState("");
 
   const insumoMap = new Map<string, InsumoCalc>(insumos.map((i) => [i.id, i]));
@@ -129,6 +130,12 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
   }
 
   async function salvar() {
+    setErroSalvar(null);
+    const itensInvalidos = itens.filter((i) => !i.qtd_liquida || i.qtd_liquida <= 0);
+    if (itensInvalidos.length > 0) {
+      setErroSalvar("Preencha a quantidade de todos os ingredientes antes de salvar.");
+      return;
+    }
     setSalvando(true);
     const fd = new FormData();
     fd.append("nome", nome);
@@ -195,7 +202,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
             size="icon"
             className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
             onClick={async () => {
-              if (!confirm(`Excluir "${receita.nome}"? Esta ação não pode ser desfeita.`)) return;
+              if (!confirm(`Arquivar "${receita.nome}"? A receita pode ser restaurada pela lixeira.`)) return;
               await arquivarReceita(receita.id);
               router.push("/receitas");
             }}
@@ -208,6 +215,10 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
           </Button>
         </div>
       </div>
+
+      {erroSalvar && (
+        <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erroSalvar}</p>
+      )}
 
       <Tabs defaultValue="ingredientes">
         <TabsList>

@@ -10,21 +10,34 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus } from "lucide-react";
 import { criarReceita } from "@/lib/actions/receitas";
 
+function normalizarErroReceita(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err);
+  if (msg.startsWith("LIMITE_PLANO:receitas:")) {
+    const limite = msg.split(":")[2];
+    return `Limite do plano atingido: o plano Essencial permite até ${limite} pratos.`;
+  }
+  return "Erro ao criar receita. Tente novamente.";
+}
+
 export function NovaReceitaDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
   const [tipo, setTipo] = useState<"prato" | "sub_receita">("prato");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSalvando(true);
+    setErro(null);
     const fd = new FormData(e.currentTarget);
     fd.set("tipo", tipo);
     try {
       const id = await criarReceita(fd);
       setOpen(false);
       router.push(`/receitas/${id}`);
+    } catch (err) {
+      setErro(normalizarErroReceita(err));
     } finally {
       setSalvando(false);
     }
@@ -68,6 +81,9 @@ export function NovaReceitaDialog() {
               />
             </div>
           </div>
+          {erro && (
+            <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{erro}</p>
+          )}
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
             <Button type="submit" disabled={salvando}>
