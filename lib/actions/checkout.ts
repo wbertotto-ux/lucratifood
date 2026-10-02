@@ -37,8 +37,10 @@ export async function iniciarCheckout(formData: FormData) {
   // Cria customer e subscription no Asaas
   let customer: { id: string };
   let subscription: { id: string; invoiceUrl: string };
+  const cpfCnpj = (formData.get("cpf_cnpj") as string | null)?.replace(/\D/g, "") || undefined;
+
   try {
-    customer = await criarCliente(restaurante.nome, session.user.email ?? "");
+    customer = await criarCliente(restaurante.nome, session.user.email ?? "", cpfCnpj);
     subscription = await criarAssinatura(customer.id, PRECOS[planoId]);
   } catch (e) {
     console.error("[checkout] Asaas error:", e instanceof Error ? e.message : e);

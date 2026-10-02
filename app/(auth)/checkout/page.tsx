@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { iniciarCheckout } from "@/lib/actions/checkout";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ArrowRight, Lock, AlertTriangle } from "lucide-react";
 
 const NOMES: Record<string, string> = {
@@ -69,8 +71,21 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
               </div>
             )}
 
-            <form action={iniciarCheckout}>
+            <form action={iniciarCheckout} className="space-y-4">
               <input type="hidden" name="plano" value={plano} />
+              <div className="space-y-1.5">
+                <Label htmlFor="cpf_cnpj" className="text-sm font-medium">
+                  CPF ou CNPJ <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="cpf_cnpj"
+                  name="cpf_cnpj"
+                  placeholder="000.000.000-00 ou 00.000.000/0001-00"
+                  required
+                  className="text-sm"
+                />
+                <p className="text-xs text-muted-foreground">Necessário para emissão da cobrança</p>
+              </div>
               <Button type="submit" className="w-full gap-2 text-base py-6" size="lg">
                 Ir para o pagamento
                 <ArrowRight className="w-4 h-4" />
