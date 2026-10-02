@@ -6,7 +6,7 @@ export const metadata = {
   description: "Como o Lucratifood coleta, usa e protege seus dados pessoais e empresariais, em conformidade com a LGPD.",
 };
 
-const LAST_UPDATED = "28 de setembro de 2025";
+const LAST_UPDATED = "2 de outubro de 2026";
 const CONTACT_EMAIL = "privacidade@lucratifood.com.br";
 const COMPANY_NAME = "Lucratifood";
 
@@ -58,7 +58,18 @@ export default function PrivacidadePage() {
                 <li>Perfil do Instagram (opcional, fornecido no formulário de demonstração)</li>
               </ul>
             </Subsection>
-            <Subsection title="2.2 Dados operacionais do negócio">
+            <Subsection title="2.2 Dados de pagamento e cobrança">
+              <p>
+                Para processar assinaturas, coletamos no momento do checkout:
+              </p>
+              <ul>
+                <li><strong>CPF ou CNPJ:</strong> obrigatório para emissão da cobrança junto ao processador de pagamentos (Asaas). Esse dado é transmitido diretamente ao Asaas e <strong>não é armazenado nos servidores do {COMPANY_NAME}</strong>.</li>
+              </ul>
+              <p>
+                Dados de cartão de crédito, dados bancários ou chaves Pix nunca passam pelos servidores do {COMPANY_NAME} — são gerenciados integralmente pelo Asaas, que é o responsável pelo tratamento dessas informações conforme sua própria política de privacidade.
+              </p>
+            </Subsection>
+            <Subsection title="2.3 Dados operacionais do negócio">
               <p>Ao utilizar a plataforma, você insere dados relacionados ao seu negócio, como:</p>
               <ul>
                 <li>Fichas técnicas, receitas e sub-receitas</li>
@@ -70,14 +81,14 @@ export default function PrivacidadePage() {
                 Esses dados são de titularidade do cliente e são tratados exclusivamente para prestação do serviço contratado. O {COMPANY_NAME} não utiliza, compartilha ou analisa dados operacionais individuais de clientes para fins comerciais próprios.
               </p>
             </Subsection>
-            <Subsection title="2.3 Dados de uso e navegação">
+            <Subsection title="2.4 Dados de uso e navegação">
               <ul>
                 <li>Endereço IP e informações do dispositivo</li>
                 <li>Páginas acessadas, tempo de sessão e cliques</li>
                 <li>Tipo de navegador e sistema operacional</li>
               </ul>
             </Subsection>
-            <Subsection title="2.4 Dados de comunicação">
+            <Subsection title="2.5 Dados de comunicação">
               <p>
                 Registramos interações por e-mail, WhatsApp ou chat de suporte para fins de atendimento e histórico do relacionamento.
               </p>
@@ -95,6 +106,7 @@ export default function PrivacidadePage() {
               <tbody className="text-muted-foreground divide-y divide-border">
                 {[
                   ["Criação e gestão da conta", "Execução de contrato (art. 7º, V)"],
+                  ["Processamento de pagamentos e assinaturas", "Execução de contrato (art. 7º, V)"],
                   ["Prestação do serviço de precificação", "Execução de contrato (art. 7º, V)"],
                   ["Envio de comunicações sobre o serviço", "Legítimo interesse (art. 7º, IX)"],
                   ["Envio de novidades e promoções", "Consentimento (art. 7º, I)"],
@@ -144,7 +156,7 @@ export default function PrivacidadePage() {
               O {COMPANY_NAME} <strong>não vende, aluga ou cede</strong> dados pessoais a terceiros para fins comerciais. Compartilhamos dados apenas nas seguintes situações:
             </p>
             <ul>
-              <li><strong>Prestadores de serviço (suboperadores):</strong> Supabase (banco de dados e autenticação), Vercel (hospedagem), Cal.com ou Calendly (agendamento de demonstrações), serviços de e-mail transacional. Todos operam sob acordos de confidencialidade e tratam os dados somente para as finalidades contratadas.</li>
+              <li><strong>Prestadores de serviço (suboperadores):</strong> Supabase (banco de dados e autenticação), Vercel (hospedagem), <strong>Asaas</strong> (processamento de pagamentos — recebe nome, e-mail e CPF/CNPJ do assinante para emissão de cobranças, conforme a <a href="https://www.asaas.com/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">política de privacidade do Asaas</a>), Cal.com ou Calendly (agendamento de demonstrações), serviços de e-mail transacional. Todos operam sob acordos de confidencialidade e tratam os dados somente para as finalidades contratadas.</li>
               <li><strong>Obrigação legal:</strong> quando exigido por autoridade pública, ordem judicial ou cumprimento de obrigação legal.</li>
               <li><strong>Proteção de direitos:</strong> para prevenir fraudes, exercer direitos contratuais ou proteger a segurança da plataforma e dos usuários.</li>
             </ul>
