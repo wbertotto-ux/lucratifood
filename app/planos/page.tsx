@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Planos — Lucratifood",
-  description: "Escolha o plano ideal para o seu restaurante e comece a precificar com precisão.",
+  description: "Escolha o plano ideal para o seu negócio gastronômico e comece a precificar com precisão.",
 };
 
 const FEATURES = [

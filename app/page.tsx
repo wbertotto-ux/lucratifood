@@ -96,7 +96,7 @@ export default async function LandingPage() {
             Vende muito, mas o dinheiro some no fim do mês.
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-8">
-            O salão cheio não garante lucro se o custo por prato está errado. Colocar uma porcentagem por cima é chute. O Lucratifood coloca o custo real de cada ingrediente, com fator de correção e perda de limpeza, e calcula a margem verdadeira por canal de venda.
+            Movimento no negócio não garante lucro se o custo por prato está errado. Colocar uma porcentagem por cima é chute. O Lucratifood coloca o custo real de cada ingrediente, com fator de correção e perda de limpeza, e calcula a margem verdadeira por canal de venda.
           </p>
           <ul className="space-y-3 text-sm text-muted-foreground">
             {[
@@ -198,7 +198,7 @@ export default async function LandingPage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { emoji: "💸", title: "Vende muito, mas o dinheiro some.", desc: "O salão cheio não garante lucro se o custo por prato está errado." },
+              { emoji: "💸", title: "Vende muito, mas o dinheiro some.", desc: "Vender muito não garante lucro se o custo por prato está errado." },
               { emoji: "📊", title: "O preço é chute.", desc: "Colocar uma porcentagem por cima do custo não garante margem real." },
               { emoji: "📋", title: "Sua planilha quebra na pior hora.", desc: "Fórmula apagada, dado errado. Você perde o controle quando mais precisa." },
             ].map((item) => (
@@ -273,7 +273,7 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <Logo size="md" href="/" />
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} Lucratifood. Feito para donos de restaurante que querem lucrar de verdade.</p>
+            <p>© {new Date().getFullYear()} Lucratifood. Feito para quem trabalha com gastronomia e quer lucrar de verdade.</p>
             <Link href="/privacidade" className="hover:text-foreground transition-colors whitespace-nowrap">
               Política de Privacidade
             </Link>

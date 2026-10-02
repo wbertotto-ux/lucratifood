@@ -121,7 +121,7 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
             <User className="w-4 h-4" /> Perfil
           </TabsTrigger>
           <TabsTrigger value="restaurante" className="gap-2">
-            <Store className="w-4 h-4" /> Restaurante
+            <Store className="w-4 h-4" /> Negócio
           </TabsTrigger>
         </TabsList>
 
@@ -276,13 +276,13 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
         <TabsContent value="restaurante">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold">Informações do restaurante</CardTitle>
+              <CardTitle className="text-base font-semibold">Informações do negócio</CardTitle>
             </CardHeader>
             <CardContent>
               {restaurante ? (
                 <form onSubmit={salvarRestaurante} className="space-y-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="nome-rest">Nome do restaurante</Label>
+                    <Label htmlFor="nome-rest">Nome do negócio</Label>
                     <Input
                       id="nome-rest"
                       value={nomeRest}
@@ -346,7 +346,7 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
                   </Button>
                 </form>
               ) : (
-                <p className="text-muted-foreground text-sm">Nenhum restaurante configurado.</p>
+                <p className="text-muted-foreground text-sm">Nenhum negócio configurado.</p>
               )}
             </CardContent>
           </Card>
