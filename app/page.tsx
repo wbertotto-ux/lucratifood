@@ -11,7 +11,15 @@ export default async function LandingPage() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) redirect("/dashboard");
+  // Só redireciona pro dashboard se tiver assinatura ativa — evita loop para usuários sem plano
+  if (session) {
+    const { data: restaurante } = await supabase.from("restaurantes").select("id").limit(1).maybeSingle();
+    if (restaurante) {
+      const { data: assinatura } = await supabase
+        .from("assinaturas").select("id").eq("restaurante_id", restaurante.id).eq("status", "ativo").maybeSingle();
+      if (assinatura) redirect("/dashboard");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background font-sans">

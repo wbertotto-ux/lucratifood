@@ -52,9 +52,11 @@ export default async function PlanosPage({ searchParams }: { searchParams: Promi
       <header className="border-b border-border bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
           <Logo size="sm" href="/" />
-          <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Entrar
-          </Link>
+          {!session && (
+            <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Entrar
+            </Link>
+          )}
         </div>
       </header>
 
