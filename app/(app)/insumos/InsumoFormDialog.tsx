@@ -18,7 +18,7 @@ const schema = z.object({
   categoria_id: z.string().optional(),
   unidade_compra: z.string().min(1, "Obrigatório"),
   qtd_por_embalagem: z.coerce.number().positive("Deve ser positivo"),
-  unidade_base: z.enum(["g", "ml", "un"]),
+  unidade_base: z.enum(["g", "kg", "ml", "l", "un"]),
   preco_pago: z.coerce.number().nonnegative("Não pode ser negativo"),
   fornecedor: z.string().optional(),
   fator_correcao: z.coerce.number().positive().default(1),
@@ -55,7 +55,7 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema) as any,
-    defaultValues: { fator_correcao: 1, unidade_base: "g" },
+    defaultValues: { fator_correcao: 1, unidade_base: "g" as const },
   });
 
   const unidadeBase = watch("unidade_base");
@@ -145,14 +145,16 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
               <Label>Unidade base *</Label>
               <Select
                 value={unidadeBase}
-                onValueChange={(v) => v && setValue("unidade_base", v as "g" | "ml" | "un")}
+                onValueChange={(v) => v && setValue("unidade_base", v as "g" | "kg" | "ml" | "l" | "un")}
               >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="g">Grama (g)</SelectItem>
+                  <SelectItem value="kg">Quilograma (kg)</SelectItem>
                   <SelectItem value="ml">Mililitro (ml)</SelectItem>
+                  <SelectItem value="l">Litro (L)</SelectItem>
                   <SelectItem value="un">Unidade (un)</SelectItem>
                 </SelectContent>
               </Select>

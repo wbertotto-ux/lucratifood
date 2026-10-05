@@ -1,4 +1,4 @@
-export type UnidadeBase = "g" | "ml" | "un";
+export type UnidadeBase = "g" | "kg" | "ml" | "l" | "un";
 export type TipoReceita = "prato" | "sub_receita";
 
 export interface Database {

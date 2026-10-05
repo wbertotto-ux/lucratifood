@@ -1,6 +1,6 @@
 // Engine de cálculo — funções puras sem efeitos colaterais
 
-export type UnidadeBase = "g" | "ml" | "un";
+export type UnidadeBase = "g" | "kg" | "ml" | "l" | "un";
 
 export interface InsumoCalc {
   id: string;
