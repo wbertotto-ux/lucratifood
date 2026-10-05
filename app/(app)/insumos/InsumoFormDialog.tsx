@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { Plus, X } from "lucide-react";
 import { criarInsumo, atualizarInsumo } from "@/lib/actions/insumos";
+import { criarCategoria } from "@/lib/actions/configuracoes";
 
 const schema = z.object({
   nome: z.string().min(1, "Obrigatório"),
@@ -52,6 +54,13 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
   const [pesoComprado, setPesoComprado] = useState("");
   const [pesoAproveitado, setPesoAproveitado] = useState("");
 
+  // Categoria combobox state
+  const [categoriasLocais, setCategoriasLocais] = useState(categorias);
+  const [categoriaNome, setCategoriaNome] = useState("");
+  const [showSugestoes, setShowSugestoes] = useState(false);
+  const [criandoCategoria, setCriandoCategoria] = useState(false);
+  const comboboxRef = useRef<HTMLDivElement>(null);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema) as any,
@@ -66,19 +75,79 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
     ? (precoPago / qtdPorEmbalagem).toFixed(4)
     : null;
 
+  // Sync categorias prop → local list whenever dialog re-opens
+  useEffect(() => {
+    setCategoriasLocais(categorias);
+  }, [categorias]);
+
   useEffect(() => {
     if (insumo) {
       reset(insumo as FormData);
+      // Look up category name by ID (no dedup, exact match by id)
+      const cat = categorias.find((c) => c.id === insumo.categoria_id);
+      setCategoriaNome(cat?.nome ?? "");
     } else {
       reset({ fator_correcao: 1, unidade_base: "g" });
+      setCategoriaNome("");
     }
-  }, [insumo, reset]);
+    setErroServidor(null);
+    setPesoComprado("");
+    setPesoAproveitado("");
+  }, [insumo, open, reset]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function calcularFatorCorrecao() {
     const comprado = parseFloat(pesoComprado);
     const aproveitado = parseFloat(pesoAproveitado);
     if (comprado > 0 && aproveitado > 0 && aproveitado <= comprado) {
       setValue("fator_correcao", parseFloat((comprado / aproveitado).toFixed(4)));
+    }
+  }
+
+  // Combobox helpers
+  const sugestoesFiltradas = categoriasLocais.filter((c) =>
+    c.nome.toLowerCase().includes(categoriaNome.toLowerCase())
+  );
+  const matchExato = categoriasLocais.find(
+    (c) => c.nome.toLowerCase() === categoriaNome.trim().toLowerCase()
+  );
+
+  function handleCategoriaInput(nome: string) {
+    setCategoriaNome(nome);
+    const match = categoriasLocais.find((c) => c.nome.toLowerCase() === nome.trim().toLowerCase());
+    if (match) {
+      setValue("categoria_id", match.id);
+    } else {
+      setValue("categoria_id", undefined);
+    }
+    setShowSugestoes(true);
+  }
+
+  function selecionarCategoria(c: { id: string; nome: string }) {
+    setCategoriaNome(c.nome);
+    setValue("categoria_id", c.id);
+    setShowSugestoes(false);
+  }
+
+  function limparCategoria() {
+    setCategoriaNome("");
+    setValue("categoria_id", undefined);
+  }
+
+  async function handleCriarCategoria() {
+    const nome = categoriaNome.trim();
+    if (!nome) return;
+    setCriandoCategoria(true);
+    try {
+      const { id } = await criarCategoria(nome);
+      const nova = { id, nome };
+      setCategoriasLocais((prev) => [...prev, nova]);
+      setCategoriaNome(nome);
+      setValue("categoria_id", id);
+      setShowSugestoes(false);
+    } catch {
+      // Silently fail — user can retry
+    } finally {
+      setCriandoCategoria(false);
     }
   }
 
@@ -114,22 +183,60 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
             {errors.nome && <p className="text-sm text-destructive">{errors.nome.message}</p>}
           </div>
 
+          {/* Categoria — combobox com criação inline */}
           <div className="space-y-1">
             <Label>Categoria</Label>
-            <Select
-              value={watch("categoria_id") ?? "none"}
-              onValueChange={(v) => setValue("categoria_id", v === "none" ? undefined : (v ?? undefined))}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Selecionar…" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">Sem categoria</SelectItem>
-                {Array.from(new Map(categorias.filter(c => c.nome?.trim()).map(c => [c.nome.trim().toLowerCase(), c])).values()).map((c) => (
-                  <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div ref={comboboxRef} className="relative">
+              <div className="flex gap-1.5">
+                <div className="relative flex-1">
+                  <Input
+                    value={categoriaNome}
+                    onChange={(e) => handleCategoriaInput(e.target.value)}
+                    onFocus={() => setShowSugestoes(true)}
+                    onBlur={() => setTimeout(() => setShowSugestoes(false), 150)}
+                    placeholder="Buscar ou criar categoria…"
+                    autoComplete="off"
+                  />
+                  {categoriaNome && (
+                    <button
+                      type="button"
+                      onClick={limparCategoria}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      tabIndex={-1}
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Dropdown de sugestões */}
+              {showSugestoes && (sugestoesFiltradas.length > 0 || (categoriaNome.trim() && !matchExato)) && (
+                <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-popover border border-border rounded-md shadow-md max-h-44 overflow-y-auto">
+                  {sugestoesFiltradas.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors"
+                      onMouseDown={() => selecionarCategoria(c)}
+                    >
+                      {c.nome}
+                    </button>
+                  ))}
+                  {categoriaNome.trim() && !matchExato && (
+                    <button
+                      type="button"
+                      className="w-full text-left px-3 py-2 text-sm text-primary hover:bg-muted flex items-center gap-1.5 border-t border-border"
+                      onMouseDown={handleCriarCategoria}
+                      disabled={criandoCategoria}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      {criandoCategoria ? "Criando…" : `Criar "${categoriaNome.trim()}"`}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <Separator />

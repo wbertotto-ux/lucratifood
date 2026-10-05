@@ -57,13 +57,20 @@ export async function atualizarCanal(id: string, formData: FormData) {
   revalidatePath("/configuracoes");
 }
 
-export async function criarCategoria(nome: string) {
+export async function criarCategoria(nome: string): Promise<{ id: string }> {
   const supabase = await createClient();
   const { data: rest } = await supabase.from("restaurantes").select("id").limit(1).maybeSingle();
-  if (!rest) return;
+  if (!rest) throw new Error("Restaurante não encontrado");
 
-  await supabase.from("categorias_insumo").insert({ restaurante_id: rest.id, nome });
+  const { data, error } = await supabase
+    .from("categorias_insumo")
+    .insert({ restaurante_id: rest.id, nome: nome.trim() })
+    .select("id")
+    .single();
+  if (error || !data) throw new Error("Erro ao criar categoria");
   revalidatePath("/configuracoes");
+  revalidatePath("/insumos");
+  return { id: data.id as string };
 }
 
 export async function excluirCategoria(id: string): Promise<{ erro: string } | undefined> {
