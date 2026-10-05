@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, Pencil, Check, X } from "lucide-react";
 import {
-  atualizarRestaurante, criarCanal, atualizarCanal, criarCategoria, excluirCategoria,
+  criarCanal, atualizarCanal, criarCategoria, excluirCategoria,
   criarCustoOperacional, atualizarCustoOperacional, excluirCustoOperacional, atualizarPorcoesMes,
 } from "@/lib/actions/configuracoes";
 import { formatarMoeda } from "@/lib/formatacao";
@@ -41,7 +41,6 @@ const CATEGORIAS_CUSTO = [
 const labelCategoria = (val: string) => CATEGORIAS_CUSTO.find(c => c.value === val)?.label ?? val;
 
 export function ConfiguracoesClient({ restaurante, canais, categorias, custosOperacionais }: Props) {
-  const [salvandoRest, setSalvandoRest] = useState(false);
   const [novaCategoria, setNovaCategoria] = useState("");
   const [erroCategoria, setErroCategoria] = useState<string | null>(null);
   const [novoCanal, setNovoCanal] = useState({ nome: "", pct_comissao: "" });
@@ -59,13 +58,6 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
   const totalMensal = custosOperacionais.filter(c => c.ativo).reduce((s, c) => s + Number(c.valor_mensal), 0);
   const porcoesMesNum = parseInt(porcoesMes) || 1;
   const custoOpPorPorcao = porcoesMesNum > 0 ? totalMensal / porcoesMesNum : 0;
-
-  async function handleRestaurante(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSalvandoRest(true);
-    await atualizarRestaurante(new FormData(e.currentTarget));
-    setSalvandoRest(false);
-  }
 
   async function handleNovoCanal(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -124,36 +116,6 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
   return (
     <div className="p-4 sm:p-6 space-y-6 max-w-2xl">
       <h1 className="text-2xl font-semibold">Configurações</h1>
-
-      {/* Dados do restaurante */}
-      <Card>
-        <CardHeader><CardTitle>Dados do restaurante</CardTitle></CardHeader>
-        <CardContent>
-          <form onSubmit={handleRestaurante} className="space-y-4">
-            <div className="space-y-1">
-              <Label>Nome</Label>
-              <Input name="nome" defaultValue={restaurante.nome} required />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="space-y-1">
-                <Label>Impostos (%)</Label>
-                <Input name="pct_impostos" type="number" step="0.1" defaultValue={(restaurante.pct_impostos * 100).toFixed(1)} required />
-              </div>
-              <div className="space-y-1">
-                <Label>Taxa de cartão (%)</Label>
-                <Input name="pct_taxa_cartao" type="number" step="0.1" defaultValue={(restaurante.pct_taxa_cartao * 100).toFixed(1)} required />
-              </div>
-              <div className="space-y-1">
-                <Label>Margem mínima (%)</Label>
-                <Input name="pct_margem_minima" type="number" step="1" defaultValue={(restaurante.pct_margem_minima * 100).toFixed(0)} required />
-              </div>
-            </div>
-            <Button type="submit" disabled={salvandoRest}>
-              {salvandoRest ? "Salvando…" : "Salvar"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
 
       {/* Custos Operacionais */}
       <Card>
