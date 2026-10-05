@@ -191,8 +191,8 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
           </Link>
           <div>
             <h1 className="text-xl font-semibold">{receita.nome}</h1>
-            <Badge variant={receita.tipo === "prato" ? "default" : "secondary"}>
-              {receita.tipo === "prato" ? "Prato" : "Sub-receita"}
+            <Badge variant={receita.tipo === "sub_receita" ? "secondary" : "default"}>
+              {{ prato: "Prato", lanche: "Lanche", petisco: "Petisco", sub_receita: "Sub-receita" }[receita.tipo] ?? receita.tipo}
             </Badge>
           </div>
         </div>
