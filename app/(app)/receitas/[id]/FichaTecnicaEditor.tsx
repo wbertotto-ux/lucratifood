@@ -181,8 +181,8 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
   }, [insumos, subReceitas]);
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 space-y-6 max-w-4xl">
+      <div className="sticky top-14 md:top-0 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-background border-b mb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/receitas">
             <Button variant="ghost" size="icon">
@@ -228,7 +228,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
         </TabsList>
 
         <TabsContent value="ingredientes" className="space-y-4 pt-4">
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="space-y-1">
               <Label>Nome da receita</Label>
               <Input value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -265,7 +265,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
                   value={item.unidade}
                   onChange={(e) => updateItemUnidade(idx, e.target.value)}
                 />
-                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => removeItem(idx)}>
+                <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => removeItem(idx)}>
                   <Trash2 className="w-3.5 h-3.5 text-destructive" />
                 </Button>
               </div>

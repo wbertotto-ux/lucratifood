@@ -193,7 +193,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
   const margemMinimaRef = parseFloat((restaurante.pct_margem_minima * 100).toFixed(1));
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       {/* Cabeçalho */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h1 className="text-2xl font-semibold">Painel de margens</h1>
@@ -235,7 +235,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
       )}
 
       {/* Cards resumo */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
           <CardContent className="pt-4">
             <p className="text-sm text-muted-foreground">Total de pratos</p>
@@ -361,7 +361,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
       )}
 
       {/* Tabela */}
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -435,7 +435,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-7 w-7 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                    className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                     onClick={async () => {
                       if (!confirm(`Arquivar "${prato.nome}"? A receita pode ser restaurada pela lixeira em Receitas.`)) return;
                       await arquivarReceita(prato.id);

@@ -109,7 +109,7 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
   }
 
   return (
-    <div className="p-6 max-w-2xl space-y-6">
+    <div className="p-4 sm:p-6 max-w-2xl space-y-6">
       <h1 className="text-2xl font-semibold">Minha conta</h1>
 
       <Tabs defaultValue="plano">
@@ -142,7 +142,7 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
                     <span className="text-muted-foreground mb-0.5">{formatarMoeda(plano.preco_mensal)}/mês</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {[
                       { label: "Fichas técnicas", value: plano.max_receitas != null ? `até ${plano.max_receitas}` : "Ilimitadas" },
                       { label: "Insumos",          value: plano.max_insumos   != null ? `até ${plano.max_insumos}`   : "Ilimitados" },
@@ -294,7 +294,7 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
                     />
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
                       <Label htmlFor="impostos">Impostos (%)</Label>
                       <Input

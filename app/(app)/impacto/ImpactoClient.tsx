@@ -48,8 +48,8 @@ export function ImpactoClient({ resultados, canais, receitas, insumoNome, novoPr
   const variacaoPreco = ((novoPreco - precoAnterior) / precoAnterior) * 100;
 
   return (
-    <div className="p-6 space-y-6 max-w-3xl">
-      <div className="flex items-center gap-3">
+    <div className="p-4 sm:p-6 space-y-6 max-w-3xl">
+      <div className="sticky top-14 md:top-0 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-background border-b mb-2 flex items-center gap-3">
         <Link href="/insumos">
           <Button variant="ghost" size="icon">
             <ChevronLeft className="w-4 h-4" />
@@ -77,7 +77,7 @@ export function ImpactoClient({ resultados, canais, receitas, insumoNome, novoPr
             </Button>
           </div>
 
-          <div className="rounded-md border">
+          <div className="overflow-x-auto rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>

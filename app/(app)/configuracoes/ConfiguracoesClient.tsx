@@ -122,7 +122,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-2xl">
+    <div className="p-4 sm:p-6 space-y-6 max-w-2xl">
       <h1 className="text-2xl font-semibold">Configurações</h1>
 
       {/* Dados do restaurante */}
@@ -134,7 +134,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
               <Label>Nome</Label>
               <Input name="nome" defaultValue={restaurante.nome} required />
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="space-y-1">
                 <Label>Impostos (%)</Label>
                 <Input name="pct_impostos" type="number" step="0.1" defaultValue={(restaurante.pct_impostos * 100).toFixed(1)} required />
@@ -187,10 +187,10 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
                       value={editCusto.valor_mensal}
                       onChange={(e) => setEditCusto(p => ({ ...p, valor_mensal: e.target.value }))}
                     />
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleSalvarCusto(custo.id)}>
+                    <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => handleSalvarCusto(custo.id)}>
                       <Check className="w-3.5 h-3.5 text-green-600" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditandoCusto(null)}>
+                    <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => setEditandoCusto(null)}>
                       <X className="w-3.5 h-3.5" />
                     </Button>
                   </>
@@ -198,13 +198,13 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
                   <>
                     <span className="flex-1 text-sm">{custo.descricao}</span>
                     <span className="text-sm font-medium tabular-nums">{formatarMoeda(custo.valor_mensal)}/mês</span>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => {
+                    <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => {
                       setEditandoCusto(custo.id);
                       setEditCusto({ descricao: custo.descricao, valor_mensal: String(custo.valor_mensal) });
                     }}>
                       <Pencil className="w-3.5 h-3.5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => excluirCustoOperacional(custo.id)}>
+                    <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => excluirCustoOperacional(custo.id)}>
                       <Trash2 className="w-3.5 h-3.5 text-destructive" />
                     </Button>
                   </>
@@ -318,10 +318,10 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
                     />
                     <span className="text-sm text-muted-foreground">%</span>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleSalvarCanal(canal.id, canal.ativo)}>
+                  <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => handleSalvarCanal(canal.id, canal.ativo)}>
                     <Check className="w-3.5 h-3.5 text-green-600" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditandoCanal(null)}>
+                  <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => setEditandoCanal(null)}>
                     <X className="w-3.5 h-3.5" />
                   </Button>
                 </>
@@ -330,7 +330,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
                   <span className="flex-1 text-sm font-medium">{canal.nome}</span>
                   <span className="text-sm text-muted-foreground">{(canal.pct_comissao * 100).toFixed(1)}%</span>
                   <Badge variant={canal.ativo ? "secondary" : "outline"}>{canal.ativo ? "Ativo" : "Inativo"}</Badge>
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => {
+                  <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => {
                     setEditandoCanal(canal.id);
                     setEditCanal({ nome: canal.nome, pct_comissao: (canal.pct_comissao * 100).toFixed(1) });
                   }}>

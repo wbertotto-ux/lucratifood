@@ -28,7 +28,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="w-56 shrink-0 flex flex-col border-r bg-background h-screen sticky top-0">
+    <aside className="hidden md:flex w-56 shrink-0 flex-col border-r bg-background h-screen sticky top-0">
       <div className="flex items-center px-4 py-4 border-b">
         <Logo size="sm" href="/dashboard" />
       </div>

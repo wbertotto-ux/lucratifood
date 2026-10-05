@@ -1,4 +1,6 @@
 import { Sidebar } from "@/components/Sidebar";
+import { BottomNav } from "@/components/BottomNav";
+import { MobileHeader } from "@/components/MobileHeader";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getAssinaturaAtiva } from "@/lib/assinaturas";
@@ -16,10 +18,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex min-h-screen">
+      <MobileHeader />
       <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto pt-14 md:pt-0 pb-16 md:pb-0">
         {children}
       </main>
+      <BottomNav />
     </div>
   );
 }

@@ -102,8 +102,8 @@ export function InsumosClient({ insumosIniciais, categorias, restauranteId, maxI
   }
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-semibold">Insumos</h1>
           {maxInsumos !== null && maxInsumos !== undefined && (
@@ -112,7 +112,7 @@ export function InsumosClient({ insumosIniciais, categorias, restauranteId, maxI
             </Badge>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {selecionados.length > 0 && (
             <Button variant="outline" size="sm" onClick={() => setLoteDialogAberto(true)}>
               Atualizar preços ({selecionados.length})
@@ -120,11 +120,13 @@ export function InsumosClient({ insumosIniciais, categorias, restauranteId, maxI
           )}
           <Button variant="outline" size="sm" onClick={baixarExemplo}>
             <FileDown className="w-4 h-4 mr-1" />
-            Planilha de exemplo
+            <span className="hidden sm:inline">Planilha de exemplo</span>
+            <span className="sm:hidden">Planilha</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => setImportDialogAberto(true)}>
             <Download className="w-4 h-4 mr-1" />
-            Importar CSV
+            <span className="hidden sm:inline">Importar CSV</span>
+            <span className="sm:hidden">CSV</span>
           </Button>
           <Button size="sm" onClick={() => { setInsumoEditar(null); setDialogAberto(true); }}>
             <Plus className="w-4 h-4 mr-1" />
@@ -184,7 +186,7 @@ export function InsumosClient({ insumosIniciais, categorias, restauranteId, maxI
         })}
       </div>
 
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -237,7 +239,7 @@ export function InsumosClient({ insumosIniciais, categorias, restauranteId, maxI
                 <TableCell className="text-sm">{custoUnitarioFormatado(insumo)}</TableCell>
                 <TableCell>
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<button className="inline-flex h-7 w-7 items-center justify-center rounded-md hover:bg-muted" />}>
+                    <DropdownMenuTrigger render={<button className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted" />}>
                       <MoreHorizontal className="w-4 h-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">

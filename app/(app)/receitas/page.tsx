@@ -68,7 +68,7 @@ export default async function ReceitasPage() {
   const canalMap = new Map<string, CanalRow>(canais.map((c) => [c.id, c]));
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-4 sm:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-semibold">Receitas</h1>
@@ -96,7 +96,7 @@ export default async function ReceitasPage() {
         </div>
       )}
 
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
