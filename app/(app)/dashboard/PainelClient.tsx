@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TrendingDown, TrendingUp, AlertTriangle, Trash2, BarChart2 } from "lucide-react";
+import { TrendingDown, TrendingUp, AlertTriangle, Trash2, BarChart2, ArrowUpRight, Lock } from "lucide-react";
 import { precoSugerido, margemContribuicao, cmvPct } from "@/lib/calculos";
 import { formatarMoeda, formatarPct } from "@/lib/formatacao";
 import { arquivarReceita } from "@/lib/actions/receitas";
@@ -78,13 +78,21 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
     [canais]
   );
 
-  const [canalSelecionado, setCanalSelecionado] = useState(() => canaisUnicos[0]?.id ?? "");
+  const salaoId = useMemo(() =>
+    canaisUnicos.find(c => /sal[aã]o/i.test(c.nome))?.id ?? canaisUnicos[0]?.id ?? "",
+    [canaisUnicos]
+  );
+
+  const [canalSelecionado, setCanalSelecionado] = useState(() => {
+    const salao = canaisUnicos.find(c => /sal[aã]o/i.test(c.nome));
+    return salao?.id ?? canaisUnicos[0]?.id ?? "";
+  });
   const [ordenacao, setOrdenacao] = useState<Ordenacao>("nome");
 
-  // Garante que a seleção sempre aponta para um canal válido
+  // Garante que a seleção sempre aponta para um canal válido, preferindo Salão
   useEffect(() => {
     if (canaisUnicos.length > 0 && !canaisUnicos.find((c) => c.id === canalSelecionado)) {
-      setCanalSelecionado(canaisUnicos[0].id);
+      setCanalSelecionado(salaoId);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canaisUnicos]);
@@ -198,22 +206,41 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h1 className="text-2xl font-semibold">Painel de margens</h1>
         <div className="flex gap-3">
-          {isPro ? (
-            <Select value={canalSelecionado} onValueChange={(v) => v && setCanalSelecionado(v)}>
-              <SelectTrigger className="w-40">
-                <span className="truncate text-sm">{canal?.nome ?? "Canal"}</span>
-              </SelectTrigger>
-              <SelectContent>
-                {canaisUnicos.map((c) => (
-                  <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="flex items-center h-9 px-3 rounded-md border border-border bg-muted text-sm text-muted-foreground w-40 truncate">
-              {canal?.nome ?? "Canal"}
-            </div>
-          )}
+          <Select value={canalSelecionado} onValueChange={(v) => {
+            if (!v) return;
+            const bloqueado = !isPro && v !== salaoId;
+            if (!bloqueado) setCanalSelecionado(v);
+          }}>
+            <SelectTrigger className="w-40">
+              <span className="truncate text-sm">{canal?.nome ?? "Canal"}</span>
+            </SelectTrigger>
+            <SelectContent>
+              {canaisUnicos.map((c) => {
+                const bloqueado = !isPro && c.id !== salaoId;
+                return (
+                  <SelectItem
+                    key={c.id}
+                    value={c.id}
+                    disabled={bloqueado}
+                    className={bloqueado ? "opacity-50" : ""}
+                  >
+                    <span className="flex items-center gap-2">
+                      {c.nome}
+                      {bloqueado && <Lock className="w-3 h-3 text-muted-foreground" />}
+                    </span>
+                  </SelectItem>
+                );
+              })}
+              {!isPro && canaisUnicos.length > 1 && (
+                <div className="border-t mt-1 pt-1 px-2 pb-1">
+                  <Link href="/conta" className="flex items-center gap-1 text-xs text-primary hover:underline">
+                    <ArrowUpRight className="w-3 h-3" />
+                    Upgrade PRO para trocar de canal
+                  </Link>
+                </div>
+              )}
+            </SelectContent>
+          </Select>
           <Select value={ordenacao} onValueChange={(v) => v && setOrdenacao(v as Ordenacao)}>
             <SelectTrigger className="w-44">
               <SelectValue />
