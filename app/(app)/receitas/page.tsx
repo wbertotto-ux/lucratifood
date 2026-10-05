@@ -10,6 +10,10 @@ import type { InsumoCalc, ReceitaCalc, ItemReceitaCalc } from "@/lib/calculos";
 import { getAssinaturaAtiva } from "@/lib/assinaturas";
 
 type PrecoCanalRow = { canal_id: string; preco_venda: number };
+const TIPO_LABEL: Record<string, string> = {
+  prato: "Prato", lanche: "Lanche", petisco: "Petisco", sub_receita: "Sub-receita",
+};
+
 type ReceitaRow = {
   id: string; nome: string; tipo: string; rendimento: number; unidade_rendimento: string;
   itens_receita: ItemReceitaCalc[];
@@ -33,7 +37,7 @@ export default async function ReceitasPage() {
       .from("receitas")
       .select("*, itens_receita!itens_receita_receita_id_fkey(*), precos_canal(*)")
       .eq("arquivado", false)
-      .eq("tipo", "prato")
+      .neq("tipo", "sub_receita")
       .order("nome"),
     supabase.from("insumos").select("*").eq("arquivado", false),
     supabase
@@ -74,7 +78,7 @@ export default async function ReceitasPage() {
           <h1 className="text-2xl font-semibold">Receitas</h1>
           {maxReceitas !== null && (
             <Badge variant={receitas.length >= maxReceitas ? "destructive" : "secondary"} className="text-xs">
-              {receitas.length}/{maxReceitas} pratos
+              {receitas.length}/{maxReceitas} fichas
             </Badge>
           )}
         </div>
@@ -100,7 +104,7 @@ export default async function ReceitasPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Prato</TableHead>
+              <TableHead>Nome</TableHead>
               <TableHead>Rendimento</TableHead>
               <TableHead>Custo/porção</TableHead>
               <TableHead>Preço de venda</TableHead>
@@ -144,9 +148,14 @@ export default async function ReceitasPage() {
               return (
                 <TableRow key={receita.id}>
                   <TableCell>
-                    <Link href={`/receitas/${receita.id}`} className="font-medium hover:underline">
-                      {receita.nome}
-                    </Link>
+                    <div className="flex items-center gap-2">
+                      <Link href={`/receitas/${receita.id}`} className="font-medium hover:underline">
+                        {receita.nome}
+                      </Link>
+                      {receita.tipo !== "prato" && (
+                        <Badge variant="outline" className="text-[10px] py-0">{TIPO_LABEL[receita.tipo] ?? receita.tipo}</Badge>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground text-sm">
                     {receita.rendimento} {receita.unidade_rendimento}

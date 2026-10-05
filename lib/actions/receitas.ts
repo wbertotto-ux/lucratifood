@@ -23,7 +23,7 @@ export async function criarReceita(formData: FormData) {
       .select("id", { count: "exact", head: true })
       .eq("restaurante_id", restaurante_id)
       .eq("arquivado", false)
-      .eq("tipo", "prato");
+      .neq("tipo", "sub_receita");
     if ((count ?? 0) >= limites.max_receitas) {
       throw new Error(`LIMITE_PLANO:receitas:${limites.max_receitas}`);
     }
@@ -34,7 +34,7 @@ export async function criarReceita(formData: FormData) {
     .insert({
       restaurante_id,
       nome: formData.get("nome") as string,
-      tipo: formData.get("tipo") as "prato" | "sub_receita",
+      tipo: formData.get("tipo") as "prato" | "lanche" | "petisco" | "sub_receita",
       rendimento: parseFloat(formData.get("rendimento") as string),
       unidade_rendimento: formData.get("unidade_rendimento") as string,
       modo_preparo: (formData.get("modo_preparo") as string) || null,
