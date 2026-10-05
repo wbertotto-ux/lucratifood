@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Plus, Trash2, Pencil, Check, X } from "lucide-react";
 import {
   criarCanal, atualizarCanal, criarCategoria, excluirCategoria,
@@ -179,7 +179,7 @@ export function ConfiguracoesClient({ restaurante, canais, categorias, custosOpe
           <form onSubmit={handleNovoCusto} className="flex gap-2 flex-wrap">
             <Select value={novoCusto.categoria} onValueChange={(v) => setNovoCusto(p => ({ ...p, categoria: v ?? "" }))}>
               <SelectTrigger className="w-44">
-                <SelectValue />
+                <span className="truncate text-sm">{CATEGORIAS_CUSTO.find(c => c.value === novoCusto.categoria)?.label ?? novoCusto.categoria}</span>
               </SelectTrigger>
               <SelectContent>
                 {CATEGORIAS_CUSTO.map(c => (
