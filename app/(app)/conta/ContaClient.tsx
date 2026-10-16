@@ -192,10 +192,22 @@ export function ContaClient({ email, restaurante, assinatura }: Props) {
             <Card>
               <CardContent className="pt-5 flex items-center gap-3 text-sm text-muted-foreground">
                 <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
-                Você está no plano PRO. Para cancelar ou alterar a assinatura, entre em contato em{" "}
-                <a href="mailto:contato@lucratifood.com.br" className="text-primary underline underline-offset-4">
-                  contato@lucratifood.com.br
-                </a>.
+                Você está no plano PRO. Obrigado por ser assinante!
+              </CardContent>
+            </Card>
+          )}
+
+          {assinatura?.status === "ativo" && (
+            <Card className="border-border">
+              <CardContent className="pt-5 space-y-1.5">
+                <p className="text-sm font-semibold text-foreground">Cancelar assinatura</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Para solicitar o cancelamento, entre em contato pelo e-mail{" "}
+                  <a href="mailto:contato@lucratifood.com.br" className="text-primary underline underline-offset-4">
+                    contato@lucratifood.com.br
+                  </a>
+                  . Sem fidelidade, sem multa.
+                </p>
               </CardContent>
             </Card>
           )}

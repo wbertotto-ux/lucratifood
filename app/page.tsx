@@ -245,36 +245,72 @@ export default async function LandingPage() {
             <h2 className="mt-3 text-3xl font-extrabold text-foreground">Perguntas frequentes</h2>
           </div>
           <div className="space-y-3">
-            {[
-              {
-                q: "Preciso ter conhecimento em contabilidade para usar?",
-                a: "Não. O Lucratifood foi feito para donos de restaurante, não para contadores. Você informa o preço que pagou, a quantidade da embalagem e o quanto aproveita do produto — o sistema calcula o custo por grama, por porção e a margem real sozinho.",
-              },
-              {
-                q: "Funciona para delivery, iFood e WhatsApp também?",
-                a: "Sim. Você cadastra cada canal de venda com a sua taxa de comissão. O sistema calcula o preço mínimo e a margem real para cada canal separadamente — Salão, iFood, WhatsApp ou qualquer outro.",
-              },
-              {
-                q: "E se eu tiver muitos ingredientes para cadastrar?",
-                a: "Você pode importar uma planilha CSV com todos os seus ingredientes de uma só vez, sem precisar digitar um por um. O sistema valida cada linha e mostra erros antes de confirmar a importação.",
-              },
-              {
-                q: "Meus dados ficam salvos se eu fechar o navegador?",
-                a: "Sim. Tudo fica salvo na nuvem e você pode acessar de qualquer dispositivo com o seu e-mail e senha.",
-              },
-              {
-                q: "Funciona para qualquer tipo de negócio de alimentação?",
-                a: "Sim. Restaurantes, lanchonetes, dark kitchens, marmitarias, confeitarias, buffets — qualquer negócio que precise calcular o custo real de um prato ou produto.",
-              },
-              {
-                q: "Posso cancelar quando quiser?",
-                a: "Sim, sem fidelidade. Entre em contato pelo e-mail contato@lucratifood.com.br para solicitar o cancelamento a qualquer momento.",
-              },
-              {
-                q: "Qual a diferença entre o plano Essencial e o PRO?",
-                a: "No Essencial você tem até 100 insumos, 30 fichas técnicas e 1 canal de venda. No PRO os limites são ampliados, com canais de venda ilimitados e análise avançada de margens. Veja todos os detalhes na página de planos.",
-              },
-            ].map(({ q, a }) => (
+            {(
+              [
+                {
+                  q: "Preciso ter conhecimento em contabilidade para usar?",
+                  a: "Não. O Lucratifood foi feito para donos de restaurante, não para contadores. Você informa o preço que pagou, a quantidade da embalagem e o quanto aproveita do produto. O sistema calcula o custo por grama, por porção e a margem real.",
+                },
+                {
+                  q: "Funciona para delivery, iFood e WhatsApp também?",
+                  a: "Sim. Você cadastra cada canal de venda com a sua taxa de comissão. O sistema calcula o preço mínimo e a margem real para cada canal separadamente: Salão, iFood, WhatsApp ou qualquer outro.",
+                },
+                {
+                  q: "E se eu tiver muitos ingredientes para cadastrar?",
+                  a: (
+                    <>
+                      Você pode{" "}
+                      <a
+                        href="/modelo-insumos.csv"
+                        download
+                        className="text-primary underline underline-offset-4 hover:opacity-80"
+                      >
+                        baixar o modelo de planilha
+                      </a>
+                      , preenchê-la com seus ingredientes e importar tudo de uma vez pelo menu Insumos. O sistema valida cada linha e mostra os erros antes de confirmar a importação.
+                    </>
+                  ),
+                },
+                {
+                  q: "Meus dados ficam salvos se eu fechar o navegador?",
+                  a: "Sim. Tudo fica salvo na nuvem e você pode acessar de qualquer dispositivo com o seu e-mail e senha.",
+                },
+                {
+                  q: "Funciona para qualquer tipo de negócio de alimentação?",
+                  a: "Sim. Restaurantes, lanchonetes, dark kitchens, marmitarias, confeitarias, buffets. Qualquer negócio que precise calcular o custo real de um prato ou produto.",
+                },
+                {
+                  q: "Posso cancelar quando quiser?",
+                  a: "Sim, sem fidelidade e sem multa. Acesse Minha Conta, aba Plano, e siga as instruções para cancelamento. Você também pode entrar em contato pelo e-mail contato@lucratifood.com.br.",
+                },
+                {
+                  q: "Qual a diferença entre o plano Essencial e o PRO?",
+                  a: (
+                    <>
+                      No Essencial você tem até 100 insumos, 30 fichas técnicas e 1 canal de venda. No PRO os limites são ampliados, com canais de venda ilimitados e análise avançada de margens.{" "}
+                      <a href="/planos" className="text-primary underline underline-offset-4 hover:opacity-80">
+                        Veja todos os detalhes na página de planos.
+                      </a>
+                    </>
+                  ),
+                },
+                {
+                  q: "Como posso falar com o suporte para tirar uma dúvida, relatar um problema ou propor uma melhoria?",
+                  a: (
+                    <>
+                      Entre em contato pelo e-mail{" "}
+                      <a
+                        href="mailto:contato@lucratifood.com.br"
+                        className="text-primary underline underline-offset-4 hover:opacity-80"
+                      >
+                        contato@lucratifood.com.br
+                      </a>
+                      . Respondemos dúvidas, registramos problemas e adoramos receber sugestões de melhoria dos usuários.
+                    </>
+                  ),
+                },
+              ] as { q: string; a: React.ReactNode }[]
+            ).map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-border bg-background">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-5 font-semibold text-foreground list-none select-none">
                   <span>{q}</span>

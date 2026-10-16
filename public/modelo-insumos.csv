@@ -1,0 +1,6 @@
+nome,categoria,unidade_compra,qtd_por_embalagem,unidade_base,preco_pago,fornecedor,fator_correcao
+Mussarela,Laticínios,kg,1000,g,32.90,Laticínios Silva,1.0
+Farinha de trigo,Grãos,kg,5000,g,18.50,Atacadão,1.0
+Óleo de soja,Óleos,lata,900,ml,9.90,Distribuidora ABC,1.0
+Tomate,Hortifruti,kg,1000,g,4.50,Feira local,0.85
+Frango inteiro,Carnes,kg,1000,g,14.90,Frigorífico Central,1.3
