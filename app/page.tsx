@@ -257,19 +257,7 @@ export default async function LandingPage() {
                 },
                 {
                   q: "E se eu tiver muitos ingredientes para cadastrar?",
-                  a: (
-                    <>
-                      Você pode{" "}
-                      <a
-                        href="/modelo-insumos.csv"
-                        download
-                        className="text-primary underline underline-offset-4 hover:opacity-80"
-                      >
-                        baixar o modelo de planilha
-                      </a>
-                      , preenchê-la com seus ingredientes e importar tudo de uma vez pelo menu Insumos. O sistema valida cada linha e mostra os erros antes de confirmar a importação.
-                    </>
-                  ),
+                  a: "O cadastro é rápido e direto: nome, preço da embalagem e quantidade. A maioria dos usuários cadastra os ingredientes principais em menos de 15 minutos. Para quem preferir, também é possível importar via planilha pelo menu Insumos.",
                 },
                 {
                   q: "Meus dados ficam salvos se eu fechar o navegador?",
