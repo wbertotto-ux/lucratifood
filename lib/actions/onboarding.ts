@@ -30,6 +30,9 @@ export async function criarRestaurante(formData: FormData) {
   if (!user) redirect("/login");
 
   const nome = formData.get("nome") as string;
+  const nome_dono = formData.get("nome_dono") as string;
+  const cidade = formData.get("cidade") as string;
+  const estado = formData.get("estado") as string;
   const pct_impostos = parseFloat(formData.get("pct_impostos") as string) / 100;
   const pct_taxa_cartao = parseFloat(formData.get("pct_taxa_cartao") as string) / 100;
   const pct_margem_minima = parseFloat(formData.get("pct_margem_minima") as string) / 100;
@@ -54,7 +57,7 @@ export async function criarRestaurante(formData: FormData) {
 
   const { data: restaurante, error } = await supabase
     .from("restaurantes")
-    .insert({ dono_id: user.id, nome, pct_impostos, pct_taxa_cartao, pct_margem_minima })
+    .insert({ dono_id: user.id, nome, nome_dono, cidade, estado, pct_impostos, pct_taxa_cartao, pct_margem_minima })
     .select()
     .single();
 

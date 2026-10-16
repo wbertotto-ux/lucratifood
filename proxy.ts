@@ -32,6 +32,20 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // Proteção da área admin
+  if (pathname.startsWith("/admin")) {
+    const adminEmail = process.env.ADMIN_EMAIL ?? "";
+    const redirectTo = (to: string) => {
+      const url = request.nextUrl.clone();
+      url.pathname = to;
+      const r = NextResponse.redirect(url);
+      supabaseResponse.cookies.getAll().forEach((c) => r.cookies.set(c.name, c.value, c));
+      return r;
+    };
+    if (!user) return redirectTo("/login");
+    if (user.email !== adminEmail) return redirectTo("/dashboard");
+  }
+
   // Rotas públicas que não precisam de autenticação
   const publicRoutes = ["/", "/login", "/cadastro", "/planos", "/privacidade", "/esqueci-senha", "/redefinir-senha", "/auth/callback", "/onboarding"];
   const isPublicRoute = publicRoutes.some((r) => pathname.startsWith(r));

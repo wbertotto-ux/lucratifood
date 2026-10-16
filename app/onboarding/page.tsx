@@ -20,8 +20,32 @@ export default async function OnboardingPage({ searchParams }: { searchParams: P
           <form action={criarRestaurante} className="space-y-6">
             <input type="hidden" name="plano" value={plano ?? "essencial"} />
             <div className="space-y-1">
+              <Label htmlFor="nome_dono">Seu nome completo</Label>
+              <Input id="nome_dono" name="nome_dono" placeholder="Ex: Maria Souza" required />
+            </div>
+            <div className="space-y-1">
               <Label htmlFor="nome">Nome do negócio</Label>
               <Input id="nome" name="nome" placeholder="Ex: Cantina da Família" required />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label htmlFor="cidade">Cidade</Label>
+                <Input id="cidade" name="cidade" placeholder="Ex: São Paulo" required />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="estado">Estado</Label>
+                <select
+                  id="estado"
+                  name="estado"
+                  required
+                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                >
+                  <option value="">UF</option>
+                  {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map((uf) => (
+                    <option key={uf} value={uf}>{uf}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="space-y-3">
