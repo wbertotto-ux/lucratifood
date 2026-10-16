@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, BookOpen, Settings, UserCircle } from "lucide-react";
+import { LayoutDashboard, Package, BookOpen, BarChart3, UserCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
   { href: "/insumos", label: "Insumos", icon: Package },
   { href: "/receitas", label: "Receitas", icon: BookOpen },
-  { href: "/configuracoes", label: "Config", icon: Settings },
+  { href: "/gestao", label: "Gestão", icon: BarChart3 },
   { href: "/conta", label: "Conta", icon: UserCircle },
 ];
 

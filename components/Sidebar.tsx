@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Package, BookOpen, Settings, LogOut, AlertTriangle, UserCircle, LifeBuoy } from "lucide-react";
+import { LayoutDashboard, Package, BookOpen, Settings, LogOut, AlertTriangle, UserCircle, LifeBuoy, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ const nav = [
   { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
   { href: "/insumos", label: "Insumos", icon: Package },
   { href: "/receitas", label: "Receitas", icon: BookOpen },
+  { href: "/gestao", label: "Gestão", icon: BarChart3 },
   { href: "/configuracoes", label: "Configurações", icon: Settings },
   { href: "/conta", label: "Minha conta", icon: UserCircle },
 ];

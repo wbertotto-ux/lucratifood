@@ -196,11 +196,12 @@ export default async function LandingPage() {
           <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-12">
             Você já passou por isso?
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { emoji: "💸", title: "Vende muito, mas o dinheiro some.", desc: "Vender muito não garante lucro se o custo por prato está errado." },
               { emoji: "📊", title: "O preço é chute.", desc: "Colocar uma porcentagem por cima do custo não garante margem real." },
               { emoji: "📋", title: "Sua planilha quebra na pior hora.", desc: "Fórmula apagada, dado errado. Você perde o controle quando mais precisa." },
+              { emoji: "📉", title: "Não sabe o que realmente lucrou no mês.", desc: "Faturamento não é lucro. Sem registrar o que saiu e por qual canal, você voa no escuro." },
             ].map((item) => (
               <div key={item.title} className="rounded-2xl border border-border bg-background p-7">
                 <span className="text-3xl mb-4 block">{item.emoji}</span>
@@ -220,17 +221,46 @@ export default async function LandingPage() {
               Em menos de uma semana você já enxerga o que nunca enxergou.
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {[
               { n: "01", title: "Cadastra insumos", desc: "Nome, preço e quantidade por embalagem." },
               { n: "02", title: "Monta as fichas", desc: "Ingredientes, quantidades, rendimento por porção." },
               { n: "03", title: "Vê o custo real", desc: "Custo por grama, por porção, com perda inclusa." },
               { n: "04", title: "Precifica por canal", desc: "Preço mínimo e sugerido para cada canal." },
+              { n: "05", title: "Acompanha a performance", desc: "Lance as vendas do mês e veja faturamento real, CMV e lucro por prato." },
             ].map((step) => (
               <div key={step.n}>
                 <span className="block text-5xl font-extrabold text-primary/20 mb-3">{step.n}</span>
                 <h3 className="font-bold text-foreground mb-2">{step.title}</h3>
                 <p className="text-sm text-muted-foreground">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Seção Gestão */}
+      <section className="py-20 px-8 bg-primary/5 border-y border-primary/10">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center mb-12">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">Gestão</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-foreground">
+              Do preço certo ao lucro real.
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Lucratifood não para na precificação. Com o módulo Gestão, você lança as vendas do mês e enxerga exatamente de onde veio cada real de lucro — por prato, por canal e por período.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { emoji: "📡", title: "Faturamento por canal", desc: "Veja quanto veio do Salão, iFood e WhatsApp separadamente. Decida onde investir mais." },
+              { emoji: "🏆", title: "Ranking de lucratividade", desc: "Quais pratos geram mais margem? O ranking mostra do mais para o menos lucrativo." },
+              { emoji: "📈", title: "Comparativo mensal", desc: "Acompanhe a evolução do faturamento e da margem mês a mês e identifique tendências." },
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-primary/20 bg-background p-7">
+                <span className="text-3xl mb-4 block">{item.emoji}</span>
+                <h3 className="font-bold text-foreground mb-2 leading-snug">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -281,6 +311,10 @@ export default async function LandingPage() {
                       </a>
                     </>
                   ),
+                },
+                {
+                  q: "Como funciona o módulo Gestão?",
+                  a: "Você informa quantos pratos vendeu em cada canal (Salão, iFood, WhatsApp) durante o mês. O sistema calcula o faturamento real, o CMV, a margem de contribuição e o lucro por prato, com gráficos prontos para a tomada de decisão.",
                 },
                 {
                   q: "Como posso falar com o suporte para tirar uma dúvida, relatar um problema ou propor uma melhoria?",
