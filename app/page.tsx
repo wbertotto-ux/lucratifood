@@ -249,7 +249,7 @@ export default async function LandingPage() {
               [
                 {
                   q: "Preciso ter conhecimento em contabilidade para usar?",
-                  a: "Não. O Lucratifood foi feito para donos de restaurante, não para contadores. Você informa o preço que pagou, a quantidade da embalagem e o quanto aproveita do produto. O sistema calcula o custo por grama, por porção e a margem real.",
+                  a: "Não. O Lucratifood foi feito para qualquer pessoa que produza e venda pratos ou produtos alimentícios: restaurantes, confeitarias, marmitarias, food trucks, produtores artesanais e muito mais. Você informa o preço que pagou, a quantidade da embalagem e o quanto aproveita do produto. O sistema calcula o custo por grama, por porção e a margem real.",
                 },
                 {
                   q: "Funciona para delivery, iFood e WhatsApp também?",
