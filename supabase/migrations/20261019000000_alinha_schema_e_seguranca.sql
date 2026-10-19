@@ -60,5 +60,14 @@ create policy planos_leitura on public.planos
   using (true);
 
 -- Funções com search_path fixo (avisos do advisor de segurança)
-alter function public.set_atualizado_em() set search_path = public;
-alter function public.registrar_historico_preco() set search_path = public;
+do $$
+declare f regprocedure;
+begin
+  for f in
+    select p.oid::regprocedure
+    from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'public' and p.proname in ('set_atualizado_em', 'registrar_historico_preco')
+  loop
+    execute format('alter function %s set search_path = public', f);
+  end loop;
+end $$;
