@@ -66,7 +66,7 @@ export function AdminTable({ usuarios }: { usuarios: UsuarioAdmin[] }) {
             {usuarios.length} cadastros · {ativos} ativos
           </p>
         </div>
-        <a href="/admin/export.csv">
+        <a href="/admin/export">
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="w-4 h-4" />
             Exportar CSV

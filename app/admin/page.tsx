@@ -1,6 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminTable } from "./AdminTable";
 
+export const dynamic = "force-dynamic";
+
 export type UsuarioAdmin = {
   id: string;
   email: string;
