@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useMemo, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell, PieChart, Pie,
+  ResponsiveContainer, Cell,
   LineChart, Line, Legend,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -230,7 +231,7 @@ export function GestaoClient({
             <Card>
               <CardContent className="pt-6 text-sm text-muted-foreground text-center py-12">
                 Nenhum prato com preço cadastrado por canal.{" "}
-                <a href="/receitas" className="text-primary underline underline-offset-4">Cadastre preços nas fichas técnicas</a>.
+                <Link href="/receitas" className="text-primary underline underline-offset-4">Cadastre preços nas fichas técnicas</Link>.
               </CardContent>
             </Card>
           ) : (

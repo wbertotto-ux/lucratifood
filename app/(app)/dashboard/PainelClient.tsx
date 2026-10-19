@@ -89,13 +89,8 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
   });
   const [ordenacao, setOrdenacao] = useState<Ordenacao>("nome");
 
-  // Garante que a seleção sempre aponta para um canal válido, preferindo Salão
-  useEffect(() => {
-    if (canaisUnicos.length > 0 && !canaisUnicos.find((c) => c.id === canalSelecionado)) {
-      setCanalSelecionado(salaoId);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canaisUnicos]);
+  // Seleção sempre aponta para um canal válido, preferindo Salão
+  const canalAtivoId = canaisUnicos.some((c) => c.id === canalSelecionado) ? canalSelecionado : salaoId;
   const [mediasVendas, setMediasVendas] = useState<Record<string, string>>({});
 
   const storageKey = `medias_vendas_mes_${restauranteId}`;
@@ -103,9 +98,11 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
   useEffect(() => {
     try {
       const saved = localStorage.getItem(storageKey);
+      // localStorage só existe no cliente; ler durante o render quebraria a hidratação
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved) setMediasVendas(JSON.parse(saved));
     } catch { /* ok */ }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [storageKey]);
 
   function setMedia(id: string, val: string) {
@@ -114,7 +111,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
     try { localStorage.setItem(storageKey, JSON.stringify(novo)); } catch { /* ok */ }
   }
 
-  const canal = canaisUnicos.find((c) => c.id === canalSelecionado);
+  const canal = canaisUnicos.find((c) => c.id === canalAtivoId);
 
   const pratosCalculados = useMemo(() => {
     if (!canal) return [];
@@ -206,7 +203,7 @@ export function PainelClient({ pratos, canais, restaurante, restauranteId, custo
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h1 className="text-2xl font-semibold">Painel de margens</h1>
         <div className="flex gap-3">
-          <Select value={canalSelecionado} onValueChange={(v) => {
+          <Select value={canalAtivoId} onValueChange={(v) => {
             if (!v) return;
             const bloqueado = !isPro && v !== salaoId;
             if (!bloqueado) setCanalSelecionado(v);

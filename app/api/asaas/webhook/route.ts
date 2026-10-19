@@ -1,56 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const WEBHOOK_TOKEN = process.env.ASAAS_WEBHOOK_TOKEN ?? "";
 
+function tokenValido(recebido: string) {
+  if (!WEBHOOK_TOKEN) return false;
+  const a = Buffer.from(recebido);
+  const b = Buffer.from(WEBHOOK_TOKEN);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+const STATUS_POR_EVENTO: Record<string, { status: string; extra?: Record<string, unknown> }> = {
+  PAYMENT_CONFIRMED: { status: "ativo", extra: { vigencia_ate: null } },
+  PAYMENT_RECEIVED: { status: "ativo", extra: { vigencia_ate: null } },
+  PAYMENT_OVERDUE: { status: "suspenso" },
+  SUBSCRIPTION_DELETED: { status: "cancelado" },
+  SUBSCRIPTION_INACTIVATED: { status: "cancelado" },
+};
+
 export async function POST(req: NextRequest) {
-  const token = req.headers.get("asaas-access-token") ?? "";
-  if (!WEBHOOK_TOKEN || token !== WEBHOOK_TOKEN) {
-    console.log(`[webhook] Unauthorized — token mismatch or empty (configured: ${!!WEBHOOK_TOKEN})`);
+  if (!tokenValido(req.headers.get("asaas-access-token") ?? "")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json() as {
-    event: string;
-    payment?: { subscription?: string };
-    subscription?: { id?: string };
-  };
+  let body: { event?: string; payment?: { subscription?: string }; subscription?: { id?: string } };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  const subscriptionId =
-    body.payment?.subscription ??
-    body.subscription?.id;
+  const subscriptionId = body.payment?.subscription ?? body.subscription?.id;
+  const acao = body.event ? STATUS_POR_EVENTO[body.event] : undefined;
 
-  console.log(`[webhook] event=${body.event} subscriptionId=${subscriptionId} serviceKeySet=${!!process.env.SUPABASE_SERVICE_ROLE_KEY}`);
-
-  if (!subscriptionId) {
+  if (!subscriptionId || !acao) {
     return NextResponse.json({ ok: true });
   }
 
-  const supabase = createAdminClient();
+  const { data, error } = await createAdminClient()
+    .from("assinaturas")
+    .update({ status: acao.status, ...acao.extra })
+    .eq("asaas_subscription_id", subscriptionId)
+    .select("id");
 
-  if (body.event === "PAYMENT_CONFIRMED" || body.event === "PAYMENT_RECEIVED") {
-    const { data, error, count } = await supabase
-      .from("assinaturas")
-      .update({ status: "ativo", vigencia_ate: null })
-      .eq("asaas_subscription_id", subscriptionId)
-      .select();
-    console.log(`[webhook] PAYMENT update result: rows=${data?.length ?? 0} error=${error?.message ?? "none"} count=${count}`);
-  } else if (body.event === "PAYMENT_OVERDUE") {
-    const { data, error } = await supabase
-      .from("assinaturas")
-      .update({ status: "suspenso" })
-      .eq("asaas_subscription_id", subscriptionId)
-      .select();
-    console.log(`[webhook] OVERDUE update result: rows=${data?.length ?? 0} error=${error?.message ?? "none"}`);
-  } else if (body.event === "SUBSCRIPTION_DELETED" || body.event === "SUBSCRIPTION_INACTIVATED") {
-    const { data, error } = await supabase
-      .from("assinaturas")
-      .update({ status: "cancelado" })
-      .eq("asaas_subscription_id", subscriptionId)
-      .select();
-    console.log(`[webhook] DELETE update result: rows=${data?.length ?? 0} error=${error?.message ?? "none"}`);
-  } else {
-    console.log(`[webhook] unhandled event: ${body.event}`);
+  // 500 faz o Asaas reenviar o evento; um pagamento nunca deve ser perdido em silêncio.
+  if (error) {
+    console.error(`[webhook] falha ao atualizar ${body.event} sub=${subscriptionId}: ${error.message}`);
+    return NextResponse.json({ error: "Database error" }, { status: 500 });
+  }
+  if (!data?.length) {
+    console.error(`[webhook] assinatura não encontrada: ${body.event} sub=${subscriptionId}`);
   }
 
   return NextResponse.json({ ok: true });

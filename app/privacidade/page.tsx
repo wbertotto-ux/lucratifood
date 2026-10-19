@@ -32,7 +32,7 @@ export default function PrivacidadePage() {
 
           <section>
             <p className="text-muted-foreground leading-relaxed">
-              O <strong>{COMPANY_NAME}</strong> ("nós", "nosso" ou "plataforma") está comprometido com a proteção dos seus dados pessoais e empresariais. Esta Política de Privacidade descreve como coletamos, usamos, armazenamos, compartilhamos e protegemos as informações fornecidas ao utilizar nossa plataforma, em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD – Lei nº 13.709/2018)</strong>.
+              O <strong>{COMPANY_NAME}</strong> (&ldquo;nós&rdquo;, &ldquo;nosso&rdquo; ou &ldquo;plataforma&rdquo;) está comprometido com a proteção dos seus dados pessoais e empresariais. Esta Política de Privacidade descreve como coletamos, usamos, armazenamos, compartilhamos e protegemos as informações fornecidas ao utilizar nossa plataforma, em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD – Lei nº 13.709/2018)</strong>.
             </p>
             <p className="text-muted-foreground leading-relaxed mt-4">
               Ao se cadastrar e utilizar o {COMPANY_NAME}, você declara ter lido e concordado com os termos desta Política. Recomendamos a leitura integral antes de fornecer qualquer dado.

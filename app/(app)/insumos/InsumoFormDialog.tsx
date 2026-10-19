@@ -61,8 +61,9 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
   const [criandoCategoria, setCriandoCategoria] = useState(false);
   const comboboxRef = useRef<HTMLDivElement>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormData>({
+    // z.coerce gera tipos de entrada/saída diferentes que o resolver não reconcilia
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(schema) as any,
     defaultValues: { fator_correcao: 1, unidade_base: "g" as const },
   });
@@ -176,6 +177,7 @@ export function InsumoFormDialog({ open, onOpenChange, insumo, categorias }: Pro
         <DialogHeader>
           <DialogTitle>{insumo ? "Editar insumo" : "Novo insumo"}</DialogTitle>
         </DialogHeader>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
           <div className="space-y-1">
             <Label>Nome *</Label>

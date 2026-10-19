@@ -282,7 +282,7 @@ export function FichaTecnicaEditor({ receita, insumos, subReceitas, canais, rest
             {buscaInsumo.length > 0 && (
               <div className="border rounded-md shadow-md max-h-56 overflow-y-auto bg-popover">
                 {insumosFiltrados.length === 0 && subReceitasFiltradas.length === 0 && (
-                  <p className="px-3 py-3 text-sm text-muted-foreground">Nenhum resultado para "{buscaInsumo}".</p>
+                  <p className="px-3 py-3 text-sm text-muted-foreground">Nenhum resultado para &ldquo;{buscaInsumo}&rdquo;.</p>
                 )}
                 {insumosFiltrados.map((i) => {
                   const jaAdicionado = idsJaAdicionados.has(i.id);
